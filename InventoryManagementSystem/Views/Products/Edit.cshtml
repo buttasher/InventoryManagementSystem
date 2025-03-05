@@ -1,0 +1,104 @@
+﻿@model InventoryManagementSystem.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_masterlayout.cshtml";
+}
+<div class="page-header">
+    <div class="page-title">
+        <h4>Edit Item</h4>
+   
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+       <form asp-action="Edit" class="row">
+            <div class="col-lg-3 col-sm-6 col-12" asp-validation-summary="ModelOnly">
+                <input type="hidden" asp-for="ProductId" />
+                <div class="form-group">
+                    <label asp-for="ItemName">Item Name</label>
+                    <input asp-for="ItemName" type="text">
+                    <span asp-validation-for="ItemName"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="ItemId"></label>
+                    <input asp-for="ItemId" />
+                    <span asp-validation-for="ItemId"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="CategoryId"></label>
+                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-control"></select>
+                    <span asp-validation-for="CategoryId"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="Brand"></label>
+                    <input asp-for="Brand" />
+                    <span asp-validation-for="Brand"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" />
+                    <span asp-validation-for="Price"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="Unit"></label>
+                    <input asp-for="Unit" />
+                    <span asp-validation-for="Unit"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="Quantity"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="ManufactureDate"></label>
+                    <input asp-for="ManufactureDate" />
+                    <span asp-validation-for="ManufactureDate"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="ExpiryDate"></label>
+                    <input asp-for="ExpiryDate" />
+                    <span asp-validation-for="ExpiryDate"></span>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="CreatedAt"></label>
+                    <input asp-for="CreatedAt" type="date" class="form-control" />
+                    <span asp-validation-for="CreatedAt"></span>
+                </div>
+            </div>
+
+           
+
+
+
+           
+            <div class="col-lg-12">
+                <input class="btn btn-submit me-2" type="submit" value="Save"></input>
+                <a asp-action="Index" class="btn btn-cancel">Back to List</a>
+            </div>
+
+          </form>
+        </div>
+    </div>
+</div>
+

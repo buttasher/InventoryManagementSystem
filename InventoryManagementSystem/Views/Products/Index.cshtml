@@ -1,0 +1,111 @@
+﻿@model IEnumerable<InventoryManagementSystem.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_masterlayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="page-title">
+        <h4>Item List</h4>
+        <h6>Manage your items</h6>
+    </div>
+    <div class="page-btn">
+        <a asp-action="Create" class="btn btn-added">
+            <img src="~/img/icons/plus.svg" alt="img"
+                 class="me-1">Add New Item
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-top">
+            <div class="search-set">
+                <div class="search-input">
+                    <a class="btn btn-searchset">
+                        <img src="~/img/icons/search-white.svg" alt="img">
+                    </a>
+                </div>
+            </div>
+            <div class="wordset">
+                <ul>
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
+                            <img src="~/img/icons/pdf.svg" alt="img">
+                        </a>
+                    </li>
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
+                            <img src="~/img/icons/excel.svg" alt="img">
+                        </a>
+                    </li>
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="print">
+                            <img src="~/img/icons/printer.svg" alt="img">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table datanew">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Item Id</th>
+                        <th>Brand </th>
+                        <th>Price</th>
+                        <th>Unit</th>
+                        <th>Qty</th>
+                        <th>MFG Date</th>
+                        <th>Expiry Date</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Brand)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Unit)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ManufactureDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ExpiryDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                <a class="me-3" asp-action="Edit" asp-route-id="@item.ProductId"><img src="~/img/icons/edit.svg" alt="img"></a> |
+                                <a class="me-3" asp-action="Details" asp-route-id="@item.ProductId"><img src="~/img/icons/eye.svg" alt="img"></a> |
+                                <a class="confirm-text" asp-action="Delete" asp-route-id="@item.ProductId"><img src="~/img/icons/delete.svg" alt="img"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

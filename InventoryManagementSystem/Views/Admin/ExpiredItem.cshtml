@@ -1,0 +1,325 @@
+﻿
+@{
+    ViewData["Title"] = "ExpiredItem";
+    Layout = "~/Views/Shared/_masterlayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="page-title">
+        <h4>Expired items</h4>
+        <h6>Manage your expired items</h6>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-top">
+            <div class="search-set">
+
+                <div class="search-input">
+                    <a class="btn btn-searchset">
+                        <img src="~/img/icons/search-white.svg"
+                             alt="img">
+                    </a>
+                </div>
+            </div>
+            <div class="wordset">
+                <ul>
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
+                            <img src="~/img/icons/pdf.svg" alt="img">
+                        </a>
+                    </li>
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
+                            <img src="~/img/icons/excel.svg" alt="img">
+                        </a>
+                    </li>
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="print">
+                            <img src="~/img/icons/printer.svg" alt="img">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table  datanew">
+                <thead>
+                    <tr>
+                        <th>
+                            <label class="checkboxs">
+                                <input type="checkbox" id="select-all">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </th>
+                        <th>Item Name</th>
+                        <th>Item Id</th>
+                        <th>Category</th>
+                        <th>Manufacture Date</th>
+                        <th>Expire Date</th>
+                        <th>Alert</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product1.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">Macbook pro</a>
+                        </td>
+                        <td>PT001</td>
+                        <td>Computers</td>
+                        <td>N/D</td>
+                        <td>1500.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product2.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">Orange</a>
+                        </td>
+                        <td>PT002</td>
+                        <td>Fruits</td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product3.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">Pineapple</a>
+                        </td>
+                        <td>PT003</td>
+                        <td>Fruits</td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product4.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">Strawberry</a>
+                        </td>
+                        <td>PT004</td>
+                        <td>Fruits</td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product5.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">Avocat</a>
+                        </td>
+                        <td>PT005</td>
+                        <td>Accessories</td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product6.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">Macbook Pro</a>
+                        </td>
+                        <td>PT006</td>
+                        <td>Shoes</td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product7.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">Apple Earpods</a>
+                        </td>
+                        <td>PT007</td>
+                        <td>Shoes</td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product8.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">iPhone 11 </a>
+                        </td>
+                        <td>PT008</td>
+                        <td>Fruits</td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product9.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">samsung </a>
+                        </td>
+                        <td>PT009</td>
+                        <td>Earphones</td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product11.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">Banana</a>
+                        </td>
+                        <td>PT0010</td>
+                        <td>Health Care </td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="checkboxs">
+                                <input type="checkbox">
+                                <span class="checkmarks"></span>
+                            </label>
+                        </td>
+                        <td class="productimgname">
+                            <a href="javascript:void(0);" class="product-img">
+                                <img src="~/img/product/product17.jpg" alt="product">
+                            </a>
+                            <a href="javascript:void(0);">Limon</a>
+                        </td>
+                        <td>PT0011</td>
+                        <td>Health Care </td>
+                        <td>N/D</td>
+                        <td>10.00</td>
+                        <td>
+                            <a data-bs-toggle="Alert" data-bs-placement="top" title="Alert">
+                                <img src="~/img/icons/alert.svg" alt="img" style="width:1.5vw;">
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

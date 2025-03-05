@@ -1,0 +1,64 @@
+﻿@model InventoryManagementSystem.Models.ReturnItem
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_masterlayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="page-title">
+        <h4>Edit Return Item</h4>
+
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit" class="row">
+            <div class="col-lg-3 col-sm-6 col-12" asp-validation-summary="ModelOnly">
+                <input type="hidden" asp-for="ReturnItemsId" />
+                <div class="form-group">
+                    <label asp-for="TransactionId" ></label>
+                    <select asp-for="TransactionId" asp-items="ViewBag.TransactionId"></select>
+                    <span asp-validation-for="TransactionId"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="ReturnQuantity"></label>
+                    <select asp-for="ReturnQuantity" asp-items="ViewBag.TransactionId"></select>
+                    <span asp-validation-for="ReturnQuantity"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="ReturnReason"></label>
+                    <select asp-for="ReturnReason" asp-items="ViewBag.TransactionId"></select>
+                    <span asp-validation-for="ReturnReason"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="ReturnDate"></label>
+                    <select asp-for="ReturnDate" asp-items="ViewBag.TransactionId"></select>
+                    <span asp-validation-for="ReturnDate"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="Status"></label>
+                    <select asp-for="Status" asp-items="ViewBag.TransactionId"></select>
+                    <span asp-validation-for="Status"></span>
+                </div>
+            </div>
+         
+            <div class="col-lg-12">
+                <input class="btn btn-submit me-2" type="submit" value="Save"></input>
+                <a asp-action="Index" class="btn btn-cancel">Back to List</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+</div>
