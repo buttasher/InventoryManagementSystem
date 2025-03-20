@@ -54,8 +54,8 @@
             <table class="table datanew">
                 <thead>
                     <tr>
+                        <th>Product Id</th>
                         <th>Item Name</th>
-                        <th>Item Id</th>
                         <th>Brand </th>
                         <th>Price</th>
                         <th>Unit</th>
@@ -71,10 +71,10 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ItemName)
+                                @Html.DisplayFor(modelItem => item.ProductId)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ItemId)
+                                @Html.DisplayFor(modelItem => item.ItemName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Brand)
@@ -100,7 +100,7 @@
                             <td>
                                 <a class="me-3" asp-action="Edit" asp-route-id="@item.ProductId"><img src="~/img/icons/edit.svg" alt="img"></a> |
                                 <a class="me-3" asp-action="Details" asp-route-id="@item.ProductId"><img src="~/img/icons/eye.svg" alt="img"></a> |
-                                <a class="confirm-text" asp-action="Delete" asp-route-id="@item.ProductId"><img src="~/img/icons/delete.svg" alt="img"></a>
+                                <a asp-action="Delete" asp-route-id="@item.ProductId"><img src="~/img/icons/delete.svg" alt="img"></a>
                             </td>
                         </tr>
                     }

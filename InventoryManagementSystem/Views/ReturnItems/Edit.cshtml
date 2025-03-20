@@ -1,4 +1,4 @@
-﻿@model InventoryManagementSystem.Models.ReturnItem
+﻿@model InventoryManagementSystem.Models.Returnitem
 
 @{
     ViewData["Title"] = "Edit";
@@ -19,40 +19,40 @@
             <div class="col-lg-3 col-sm-6 col-12" asp-validation-summary="ModelOnly">
                 <input type="hidden" asp-for="ReturnItemsId" />
                 <div class="form-group">
-                    <label asp-for="TransactionId" ></label>
+                    <label asp-for="TransactionId"></label>
                     <select asp-for="TransactionId" asp-items="ViewBag.TransactionId"></select>
                     <span asp-validation-for="TransactionId"></span>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
+                    <label asp-for="ProductId"></label>
+                    <select asp-for="ProductId" asp-items="ViewBag.ProductId"></select>
+                    <span asp-validation-for="ProductId"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
                     <label asp-for="ReturnQuantity"></label>
-                    <select asp-for="ReturnQuantity" asp-items="ViewBag.TransactionId"></select>
+                    <select asp-for="ReturnQuantity" asp-items="ViewBag.ReturnQuantity"></select>
                     <span asp-validation-for="ReturnQuantity"></span>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label asp-for="ReturnReason"></label>
-                    <select asp-for="ReturnReason" asp-items="ViewBag.TransactionId"></select>
+                    <select asp-for="ReturnReason" asp-items="ViewBag.ReturnReason"></select>
                     <span asp-validation-for="ReturnReason"></span>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label asp-for="ReturnDate"></label>
-                    <select asp-for="ReturnDate" asp-items="ViewBag.TransactionId"></select>
+                    <select asp-for="ReturnDate" asp-items="ViewBag.ReturnDate"></select>
                     <span asp-validation-for="ReturnDate"></span>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 col-12">
-                <div class="form-group">
-                    <label asp-for="Status"></label>
-                    <select asp-for="Status" asp-items="ViewBag.TransactionId"></select>
-                    <span asp-validation-for="Status"></span>
-                </div>
-            </div>
-         
+
             <div class="col-lg-12">
                 <input class="btn btn-submit me-2" type="submit" value="Save"></input>
                 <a asp-action="Index" class="btn btn-cancel">Back to List</a>

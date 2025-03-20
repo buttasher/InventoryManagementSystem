@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace InventoryManagementSystem.Models;
 
-public partial class ProductCategory
+public partial class Productcategory
 {
     public int CategoryId { get; set; }
 

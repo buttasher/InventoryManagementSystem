@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace InventoryManagementSystem.Models;
 
-public partial class PaymentMethod
+public partial class Paymentmethod
 {
     public int PaymentMethodId { get; set; }
 

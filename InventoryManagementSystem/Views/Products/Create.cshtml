@@ -20,23 +20,15 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label asp-for="ItemName"></label>
-                    <input asp-for="ItemName"/>
+                    <input asp-for="ItemName" />
                     <span asp-validation-for="ItemName"></span>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 col-12">
-                <div class="form-group">
-                    <label asp-for="ItemId"></label>
-                    <input asp-for="ItemId" />
-                    <span asp-validation-for="ItemId"></span>
-                </div>
-            </div>
-
 
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label asp-for="CategoryId"></label>
-                    <input asp-for="CategoryId" />
+                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-control"></select>
                     <span asp-validation-for="CategoryId"></span>
                 </div>
             </div>
@@ -51,7 +43,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label asp-for="Price"></label>
-                    <input asp-for="Price" />
+                    <input asp-for="Price" class="form-" />
                     <span asp-validation-for="Price"></span>
                 </div>
             </div>
@@ -65,7 +57,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label asp-for="Quantity"></label>
-                    <input asp-for="Quantity" class="form-control"/>
+                    <input asp-for="Quantity" class="form-control" />
                     <span asp-validation-for="Quantity"></span>
                 </div>
             </div>
@@ -93,9 +85,9 @@
 
 
 
-          
+
             <div class="col-lg-12">
-                <input type="submit" value="Create" class="btn btn-submit me-2"/>
+                <input type="submit" value="Create" class="btn btn-submit me-2" />
                 <a asp-action="Index" class="btn btn-cancel">Back to List</a>
             </div>
         </form>

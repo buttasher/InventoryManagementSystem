@@ -9,8 +9,6 @@ public partial class Product
 
     public string ItemName { get; set; } = null!;
 
-    public string ItemId { get; set; } = null!;
-
     public int? CategoryId { get; set; }
 
     public string? Brand { get; set; }
@@ -27,9 +25,11 @@ public partial class Product
 
     public DateTime? CreatedAt { get; set; }
 
-    public virtual ProductCategory? Category { get; set; }
+    public virtual Productcategory? Category { get; set; }
 
-    public virtual ICollection<ReturnItem> ReturnItems { get; set; } = new List<ReturnItem>();
+    public virtual ICollection<Expireditem> Expireditems { get; set; } = new List<Expireditem>();
 
-    public virtual ICollection<TransactionDetail> TransactionDetails { get; set; } = new List<TransactionDetail>();
+    public virtual ICollection<Returnitem> Returnitems { get; set; } = new List<Returnitem>();
+
+    public virtual ICollection<Transactiondetail> Transactiondetails { get; set; } = new List<Transactiondetail>();
 }

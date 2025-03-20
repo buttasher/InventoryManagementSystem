@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace InventoryManagementSystem.Models;
 
-public partial class ReturnItem
+public partial class Returnitem
 {
     public int ReturnItemsId { get; set; }
 
@@ -16,8 +16,6 @@ public partial class ReturnItem
     public string? ReturnReason { get; set; }
 
     public DateTime? ReturnDate { get; set; }
-
-    public string? Status { get; set; }
 
     public virtual Product? Product { get; set; }
 

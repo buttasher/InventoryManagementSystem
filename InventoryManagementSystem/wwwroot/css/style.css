@@ -8080,6 +8080,21 @@ span.select2-container.select2-container--default.select2-container--open {
     color: #fff
 }
 
+.btn-return {
+    border: 2px solid #6C757D;
+    color: #6C757D;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-bottom: 20px
+}
+
+.btn-return:hover {
+    background: #6C757D;
+    color: #fff
+}
+
 .order-list {
     margin-bottom: 25px
 }

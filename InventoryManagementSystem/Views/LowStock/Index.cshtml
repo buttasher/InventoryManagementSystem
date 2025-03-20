@@ -1,30 +1,26 @@
-﻿@model IEnumerable<InventoryManagementSystem.Models.User>
-
+﻿@model IEnumerable<InventoryManagementSystem.Models.Lowstock>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "LowStock";
     Layout = "~/Views/Shared/_masterlayout.cshtml";
 }
 
 <div class="page-header">
     <div class="page-title">
-        <h4>Customer List</h4>
-        <h6>Manage your User</h6>
+        <h4>Low Stock Items</h4>
+        <h6>Manage your low stock items</h6>
     </div>
-    <div class="page-btn">
-        <a asp-action="Create" class="btn btn-added">
-            <img src="~/img/icons/plus.svg" alt="img"
-                 class="me-2">Add User
-        </a>
-    </div>
+
 </div>
 
 <div class="card">
     <div class="card-body">
         <div class="table-top">
             <div class="search-set">
+
                 <div class="search-input">
                     <a class="btn btn-searchset">
-                        <img src="~/img/icons/search-white.svg" alt="img">
+                        <img src="~/img/icons/search-white.svg"
+                             alt="img">
                     </a>
                 </div>
             </div>
@@ -51,33 +47,45 @@
 
 
         <div class="table-responsive">
-            <table class="table  datanew">
+            <table class="table datanew">
                 <thead>
                     <tr>
-                        <th>Email</th>
-                        <th>Full Name</th>
-                        <th>Password</th>
-                        <th>Phone</th>
-                        <th>Role</th>
-                        <th>CreatedAt</th>
-                        <th>Action</th>
+                        <th>Product Id</th>
+                        <th>Item Name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Alert</th>
+
+                     
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Password)</td>
-                            <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Role)</td>
-                            <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.UserId"><img src="~/img/icons/edit.svg" alt="img"></a> |
-                                <a asp-action="Details" asp-route-id="@item.UserId"><img src="~/img/icons/eye.svg" alt="img"></a> |
-                                <a asp-action="Delete" asp-route-id="@item.UserId"><img src="~/img/icons/delete.svg" alt="img"></a>
+                                @Html.DisplayFor(modelItem => item.ProductId)
                             </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                               @if(item.Alert == 1)
+                                {
+                                    <span class="badge bg-danger">Low Stock</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Sufficient</span>
+                                }
+                            </td>
+                            
                         </tr>
                     }
                 </tbody>

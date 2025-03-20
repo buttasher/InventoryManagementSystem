@@ -21,11 +21,11 @@ public partial class Transaction
 
     public virtual Customer Customer { get; set; } = null!;
 
-    public virtual PaymentMethod PaymentMethod { get; set; } = null!;
+    public virtual Paymentmethod PaymentMethod { get; set; } = null!;
 
-    public virtual ICollection<ReturnItem> ReturnItems { get; set; } = new List<ReturnItem>();
+    public virtual ICollection<Returnitem> Returnitems { get; set; } = new List<Returnitem>();
 
-    public virtual ICollection<TransactionDetail> TransactionDetails { get; set; } = new List<TransactionDetail>();
+    public virtual ICollection<Transactiondetail> Transactiondetails { get; set; } = new List<Transactiondetail>();
 
     public virtual User User { get; set; } = null!;
 }

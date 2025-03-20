@@ -21,21 +21,17 @@ public partial class InventoryManagementSystemContext : DbContext
 
     public virtual DbSet<Lowstock> Lowstocks { get; set; }
 
-    public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
+    public virtual DbSet<Paymentmethod> Paymentmethods { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<ProductCategory> ProductCategories { get; set; }
+    public virtual DbSet<Productcategory> Productcategories { get; set; }
 
-    public virtual DbSet<Productinsight> Productinsights { get; set; }
-
-    public virtual DbSet<ReturnItem> ReturnItems { get; set; }
-
-    public virtual DbSet<Salestrend> Salestrends { get; set; }
+    public virtual DbSet<Returnitem> Returnitems { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
 
-    public virtual DbSet<TransactionDetail> TransactionDetails { get; set; }
+    public virtual DbSet<Transactiondetail> Transactiondetails { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -43,6 +39,7 @@ public partial class InventoryManagementSystemContext : DbContext
     {
 
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
@@ -67,49 +64,50 @@ public partial class InventoryManagementSystemContext : DbContext
 
         modelBuilder.Entity<Expireditem>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("expireditems", "inventorymanagementsystem");
+            entity.HasKey(e => e.ExpiredItemId).HasName("PK_expireditems_ExpiredItemId");
 
-            entity.Property(e => e.Brand).HasMaxLength(100);
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-            entity.Property(e => e.CreatedAt).HasPrecision(0);
-            entity.Property(e => e.ItemId)
-                .HasMaxLength(50)
-                .HasColumnName("ItemID");
-            entity.Property(e => e.ItemName).HasMaxLength(150);
-            entity.Property(e => e.ProductId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ProductID");
-            entity.Property(e => e.Unit).HasMaxLength(50);
+            entity.ToTable("expireditems", "inventorymanagementsystem");
+
+            entity.HasIndex(e => e.ItemId, "fk_expireditems_products");
+
+            entity.Property(e => e.Category)
+                .HasMaxLength(100)
+                .HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.ItemName).HasMaxLength(255);
+
+            entity.HasOne(d => d.Item).WithMany(p => p.Expireditems)
+                .HasForeignKey(d => d.ItemId)
+                .HasConstraintName("expireditems$fk_expireditems_products");
         });
 
         modelBuilder.Entity<Lowstock>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("lowstock", "inventorymanagementsystem");
+            entity.HasKey(e => e.LowStockId).HasName("PK_lowstock_LowStockId");
 
-            entity.Property(e => e.Brand).HasMaxLength(100);
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-            entity.Property(e => e.CreatedAt).HasPrecision(0);
-            entity.Property(e => e.ItemId)
-                .HasMaxLength(50)
-                .HasColumnName("ItemID");
-            entity.Property(e => e.ItemName).HasMaxLength(150);
-            entity.Property(e => e.ProductId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ProductID");
-            entity.Property(e => e.Unit).HasMaxLength(50);
+            entity.ToTable("lowstock", "inventorymanagementsystem");
+
+            entity.Property(e => e.Brand)
+                .HasMaxLength(100)
+                .HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.Category)
+                .HasMaxLength(100)
+                .HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.CreatedAt)
+                .HasPrecision(0)
+                .HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.ItemName).HasMaxLength(255);
         });
 
-        modelBuilder.Entity<PaymentMethod>(entity =>
+        modelBuilder.Entity<Paymentmethod>(entity =>
         {
-            entity.HasKey(e => e.PaymentMethodId).HasName("PK_payment method_PaymentMethodID");
+            entity.HasKey(e => e.PaymentMethodId).HasName("PK_paymentmethod_PaymentMethodID");
 
-            entity.ToTable("payment method", "inventorymanagementsystem");
+            entity.ToTable("paymentmethod", "inventorymanagementsystem");
 
-            entity.HasIndex(e => e.MethodName, "payment method$MethodName_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.MethodName, "paymentmethod$MethodName_UNIQUE").IsUnique();
 
             entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodID");
             entity.Property(e => e.MethodName).HasMaxLength(50);
@@ -117,13 +115,11 @@ public partial class InventoryManagementSystemContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK_product_ProductID");
+            entity.HasKey(e => e.ProductId).HasName("PK_products_ProductID");
 
-            entity.ToTable("product", "inventorymanagementsystem");
+            entity.ToTable("products", "inventorymanagementsystem");
 
             entity.HasIndex(e => e.CategoryId, "CategoryID_idx");
-
-            entity.HasIndex(e => e.ItemId, "product$ItemID_UNIQUE").IsUnique();
 
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.Brand)
@@ -136,33 +132,30 @@ public partial class InventoryManagementSystemContext : DbContext
                 .HasPrecision(0)
                 .HasDefaultValueSql("(getdate())");
             entity.Property(e => e.ExpiryDate).HasDefaultValueSql("(NULL)");
-            entity.Property(e => e.ItemId)
-                .HasMaxLength(50)
-                .HasColumnName("ItemID");
             entity.Property(e => e.ItemName).HasMaxLength(150);
             entity.Property(e => e.ManufactureDate).HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.Price)
+                .HasMaxLength(100)
+                .HasDefaultValueSql("(NULL)");
             entity.Property(e => e.Quantity).HasDefaultValue(0);
             entity.Property(e => e.Unit)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("(NULL)");
-            entity.Property(e => e.Price)
-               .HasMaxLength(100)
-               .HasDefaultValueSql("(NULL)");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("product$CategoryID");
+                .HasConstraintName("products$CategoryID");
         });
 
-        modelBuilder.Entity<ProductCategory>(entity =>
+        modelBuilder.Entity<Productcategory>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("PK_product category_CategoryID");
+            entity.HasKey(e => e.CategoryId).HasName("PK_productcategory_CategoryID");
 
-            entity.ToTable("product category", "inventorymanagementsystem");
+            entity.ToTable("productcategory", "inventorymanagementsystem");
 
-            entity.HasIndex(e => e.CategoryName, "product category$CategoryName_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.CategoryName, "productcategory$CategoryName_UNIQUE").IsUnique();
 
-            entity.HasIndex(e => e.CreatedAt, "product category$CreatedAt_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.CreatedAt, "productcategory$CreatedAt_UNIQUE").IsUnique();
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CategoryName).HasMaxLength(50);
@@ -171,22 +164,11 @@ public partial class InventoryManagementSystemContext : DbContext
                 .HasDefaultValueSql("(NULL)");
         });
 
-        modelBuilder.Entity<Productinsight>(entity =>
+        modelBuilder.Entity<Returnitem>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("productinsights", "inventorymanagementsystem");
+            entity.HasKey(e => e.ReturnItemsId).HasName("PK_returnitems_ReturnItemsID");
 
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-            entity.Property(e => e.ItemName).HasMaxLength(150);
-            entity.Property(e => e.Revenue).HasColumnType("decimal(38, 2)");
-        });
-
-        modelBuilder.Entity<ReturnItem>(entity =>
-        {
-            entity.HasKey(e => e.ReturnItemsId).HasName("PK_return items_ReturnItemsID");
-
-            entity.ToTable("return items", "inventorymanagementsystem");
+            entity.ToTable("returnitems", "inventorymanagementsystem");
 
             entity.HasIndex(e => e.ProductId, "ProductID_idx");
 
@@ -199,31 +181,20 @@ public partial class InventoryManagementSystemContext : DbContext
             entity.Property(e => e.ReturnDate)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.Status)
-                .HasMaxLength(8)
-                .HasDefaultValueSql("(NULL)");
+           
             entity.Property(e => e.TransactionId)
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnName("TransactionID");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ReturnItems)
+            entity.HasOne(d => d.Product).WithMany(p => p.Returnitems)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("return items$ReturnProductID");
+                .HasConstraintName("returnitems$ReturnProductID");
 
-            entity.HasOne(d => d.Transaction).WithMany(p => p.ReturnItems)
+            entity.HasOne(d => d.Transaction).WithMany(p => p.Returnitems)
                 .HasForeignKey(d => d.TransactionId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("return items$ReturnTransactionID");
-        });
-
-        modelBuilder.Entity<Salestrend>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("salestrend", "inventorymanagementsystem");
-
-            entity.Property(e => e.TotalSales).HasColumnType("decimal(38, 0)");
+                .HasConstraintName("returnitems$ReturnTransactionID");
         });
 
         modelBuilder.Entity<Transaction>(entity =>
@@ -268,11 +239,11 @@ public partial class InventoryManagementSystemContext : DbContext
                 .HasConstraintName("transactions$UserID");
         });
 
-        modelBuilder.Entity<TransactionDetail>(entity =>
+        modelBuilder.Entity<Transactiondetail>(entity =>
         {
-            entity.HasKey(e => e.TransactionDetailsId).HasName("PK_transaction details_TransactionDetailsID");
+            entity.HasKey(e => e.TransactionDetailsId).HasName("PK_transactiondetails_TransactionDetailsID");
 
-            entity.ToTable("transaction details", "inventorymanagementsystem");
+            entity.ToTable("transactiondetails", "inventorymanagementsystem");
 
             entity.HasIndex(e => e.ProductId, "ProductID_idx");
 
@@ -288,15 +259,15 @@ public partial class InventoryManagementSystemContext : DbContext
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnName("TransactionID");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.TransactionDetails)
+            entity.HasOne(d => d.Product).WithMany(p => p.Transactiondetails)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("transaction details$ProductID");
+                .HasConstraintName("transactiondetails$ProductID");
 
-            entity.HasOne(d => d.Transaction).WithMany(p => p.TransactionDetails)
+            entity.HasOne(d => d.Transaction).WithMany(p => p.Transactiondetails)
                 .HasForeignKey(d => d.TransactionId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("transaction details$TransactionID");
+                .HasConstraintName("transactiondetails$TransactionID");
         });
 
         modelBuilder.Entity<User>(entity =>

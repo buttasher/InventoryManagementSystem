@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace InventoryManagementSystem.Models;
 
-public partial class TransactionDetail
+public partial class Transactiondetail
 {
     public int TransactionDetailsId { get; set; }
 

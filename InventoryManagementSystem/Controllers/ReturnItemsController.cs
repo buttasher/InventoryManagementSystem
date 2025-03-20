@@ -9,23 +9,23 @@ using InventoryManagementSystem.Models;
 
 namespace InventoryManagementSystem.Controllers
 {
-    public class ReturnItemsController : Controller
+    public class ReturnitemsController : Controller
     {
         private readonly InventoryManagementSystemContext _context;
 
-        public ReturnItemsController(InventoryManagementSystemContext context)
+        public ReturnitemsController(InventoryManagementSystemContext context)
         {
             _context = context;
         }
 
-        // GET: ReturnItems
+        // GET: Returnitems
         public async Task<IActionResult> Index()
         {
-            var inventoryManagementSystemContext = _context.ReturnItems.Include(r => r.Product).Include(r => r.Transaction);
+            var inventoryManagementSystemContext = _context.Returnitems.Include(r => r.Product).Include(r => r.Transaction);
             return View(await inventoryManagementSystemContext.ToListAsync());
         }
 
-        // GET: ReturnItems/Details/5
+        // GET: Returnitems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,19 +33,19 @@ namespace InventoryManagementSystem.Controllers
                 return NotFound();
             }
 
-            var returnItem = await _context.ReturnItems
+            var returnitem = await _context.Returnitems
                 .Include(r => r.Product)
                 .Include(r => r.Transaction)
                 .FirstOrDefaultAsync(m => m.ReturnItemsId == id);
-            if (returnItem == null)
+            if (returnitem == null)
             {
                 return NotFound();
             }
 
-            return View(returnItem);
+            return View(returnitem);
         }
 
-        // GET: ReturnItems/Create
+        // GET: Returnitems/Create
         public IActionResult Create()
         {
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId");
@@ -53,25 +53,25 @@ namespace InventoryManagementSystem.Controllers
             return View();
         }
 
-        // POST: ReturnItems/Create
+        // POST: Returnitems/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReturnItemsId,TransactionId,ProductId,ReturnQuantity,ReturnReason,ReturnDate,Status")] ReturnItem returnItem)
+        public async Task<IActionResult> Create([Bind("ReturnItemsId,TransactionId,ProductId,ReturnQuantity,ReturnReason,ReturnDate,Status")] Returnitem returnitem)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(returnItem);
+                _context.Add(returnitem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", returnItem.ProductId);
-            ViewData["TransactionId"] = new SelectList(_context.Transactions, "TransactionId", "TransactionId", returnItem.TransactionId);
-            return View(returnItem);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", returnitem.ProductId);
+            ViewData["TransactionId"] = new SelectList(_context.Transactions, "TransactionId", "TransactionId", returnitem.TransactionId);
+            return View(returnitem);
         }
 
-        // GET: ReturnItems/Edit/5
+        // GET: Returnitems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,24 +79,24 @@ namespace InventoryManagementSystem.Controllers
                 return NotFound();
             }
 
-            var returnItem = await _context.ReturnItems.FindAsync(id);
-            if (returnItem == null)
+            var returnitem = await _context.Returnitems.FindAsync(id);
+            if (returnitem == null)
             {
                 return NotFound();
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", returnItem.ProductId);
-            ViewData["TransactionId"] = new SelectList(_context.Transactions, "TransactionId", "TransactionId", returnItem.TransactionId);
-            return View(returnItem);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", returnitem.ProductId);
+            ViewData["TransactionId"] = new SelectList(_context.Transactions, "TransactionId", "TransactionId", returnitem.TransactionId);
+            return View(returnitem);
         }
 
-        // POST: ReturnItems/Edit/5
+        // POST: Returnitems/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReturnItemsId,TransactionId,ProductId,ReturnQuantity,ReturnReason,ReturnDate,Status")] ReturnItem returnItem)
+        public async Task<IActionResult> Edit(int id, [Bind("ReturnItemsId,TransactionId,ProductId,ReturnQuantity,ReturnReason,ReturnDate,Status")] Returnitem returnitem)
         {
-            if (id != returnItem.ReturnItemsId)
+            if (id != returnitem.ReturnItemsId)
             {
                 return NotFound();
             }
@@ -105,12 +105,12 @@ namespace InventoryManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(returnItem);
+                    _context.Update(returnitem);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReturnItemExists(returnItem.ReturnItemsId))
+                    if (!ReturnitemExists(returnitem.ReturnItemsId))
                     {
                         return NotFound();
                     }
@@ -121,12 +121,12 @@ namespace InventoryManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", returnItem.ProductId);
-            ViewData["TransactionId"] = new SelectList(_context.Transactions, "TransactionId", "TransactionId", returnItem.TransactionId);
-            return View(returnItem);
+            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", returnitem.ProductId);
+            ViewData["TransactionId"] = new SelectList(_context.Transactions, "TransactionId", "TransactionId", returnitem.TransactionId);
+            return View(returnitem);
         }
 
-        // GET: ReturnItems/Delete/5
+        // GET: Returnitems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,36 +134,36 @@ namespace InventoryManagementSystem.Controllers
                 return NotFound();
             }
 
-            var returnItem = await _context.ReturnItems
+            var returnitem = await _context.Returnitems
                 .Include(r => r.Product)
                 .Include(r => r.Transaction)
                 .FirstOrDefaultAsync(m => m.ReturnItemsId == id);
-            if (returnItem == null)
+            if (returnitem == null)
             {
                 return NotFound();
             }
 
-            return View(returnItem);
+            return View(returnitem);
         }
 
-        // POST: ReturnItems/Delete/5
+        // POST: Returnitems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var returnItem = await _context.ReturnItems.FindAsync(id);
-            if (returnItem != null)
+            var returnitem = await _context.Returnitems.FindAsync(id);
+            if (returnitem != null)
             {
-                _context.ReturnItems.Remove(returnItem);
+                _context.Returnitems.Remove(returnitem);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReturnItemExists(int id)
+        private bool ReturnitemExists(int id)
         {
-            return _context.ReturnItems.Any(e => e.ReturnItemsId == id);
+            return _context.Returnitems.Any(e => e.ReturnItemsId == id);
         }
     }
 }
