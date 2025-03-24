@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="~/plugins/fontawesome/css/all.min.css">
 
 
-    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true">
 </head>
 
 <body>
@@ -226,7 +226,7 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="profile.html">My Profile</a>
                     <a asp-controller="Admin" asp-action="GeneralSettings">Settings</a>
-                    <a asp-controller="Login" asp-action="Index">Logout</a>
+                    <a asp-controller="Account" asp-action="Index">Logout</a>
                 </div>
             </div>
 
@@ -275,8 +275,7 @@
                             </a>
                             <ul>
 
-                                <li><a asp-controller="Users" asp-action="Index">User List</a></li>
-                                <li><a asp-controller="Users" asp-action="Create">Create User</a></li>
+                                <li><a asp-controller="Admin" asp-action="ManageUsers">User List</a></li>
                                 <li><a asp-controller="Customers" asp-action="Index">Customer List</a></li>
                             </ul>
                         </li>

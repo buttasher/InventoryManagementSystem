@@ -9,12 +9,6 @@
         <h4>Return Item List</h4>
         <h6>Manage your Return items</h6>
     </div>
-    <div class="page-btn">
-        <a asp-action="Create" class="btn btn-added">
-            <img src="~/img/icons/plus.svg" alt="img"
-                 class="me-1">Add New Return Item
-        </a>
-    </div>
 </div>
 <div class="card">
     <div class="card-body">
@@ -83,7 +77,7 @@
                             <td>
                                 <a class="me-3" asp-action="Edit" asp-route-id="@item.ReturnItemsId"><img src="~/img/icons/edit.svg" alt="img"></a> |
                                 <a class="me-3" asp-action="Details" asp-route-id="@item.ReturnItemsId"><img src="~/img/icons/eye.svg" alt="img"></a> |
-                                <a class="confirm-text" asp-action="Delete" asp-route-id="@item.ReturnItemsId"><img src="~/img/icons/delete.svg" alt="img"></a>
+                                <a asp-action="Delete" asp-route-id="@item.ReturnItemsId"><img src="~/img/icons/delete.svg" alt="img"></a>
                             </td>
                         </tr>
                     }

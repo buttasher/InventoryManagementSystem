@@ -64,7 +64,7 @@ namespace InventoryManagementSystem.Controllers
             {
                 _context.Add(returnitem);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","POS");
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", returnitem.ProductId);
             ViewData["TransactionId"] = new SelectList(_context.Transactions, "TransactionId", "TransactionId", returnitem.TransactionId);

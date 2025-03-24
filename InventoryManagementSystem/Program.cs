@@ -1,17 +1,27 @@
-using InventoryManagementSystem.Models;
+﻿using InventoryManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ? Register services BEFORE calling builder.Build()
+// 🔹 Register database context
 builder.Services.AddDbContext<InventoryManagementSystemContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
 
+// 🔹 Add controllers and views
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build(); // ? Do NOT add services after this line
+// 🔹 Add session services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+    options.Cookie.HttpOnly = true; // Security: Prevents JavaScript access
+    options.Cookie.IsEssential = true; // Required for session cookies
+});
 
-// Configure the HTTP request pipeline.
+var app = builder.Build();
+
+// 🔹 Configure middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -21,10 +31,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+// 🔹 Use session middleware
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Index}/{id?}");
 
 app.Run();

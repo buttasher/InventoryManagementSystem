@@ -1,0 +1,64 @@
+﻿@model InventoryManagementSystem.Models.Customer
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_masterlayout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Customer</h4>
+<hr />
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit" class="row">
+            <div asp-validation-summary="ModelOnly" />
+            <input type="hidden" asp-for="CustomerId" />
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="FullName"></label>
+                    <input asp-for="FullName" class="form-control"></input>
+                    <span asp-validation-for="FullName"></span>
+                </div>
+            </div>
+            <div class=" col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" type="text">
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="ContactNumer"></label>
+                    <input asp-for="ContactNumer" />
+                    <span asp-validation-for="ContactNumer"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="Age"></label>
+                    <input asp-for="Age" class="form-control" type="number" />
+                    <span asp-validation-for="Age"></span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="form-group">
+                    <label asp-for="CreatedDate"></label>
+                    <input asp-for="CreatedDate" class="form-control" type="date"/>
+                    <span asp-validation-for="CreatedDate"></span>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <input class="btn btn-submit me-2" type="submit" value="Save"></input>
+                <a asp-action="Index" class="btn btn-cancel">Back to List</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+

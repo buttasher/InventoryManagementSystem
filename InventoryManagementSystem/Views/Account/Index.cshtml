@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -7,19 +6,13 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Login</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="./Images/Logo-shortform Crop.png">
-
-    <link rel="stylesheet" href="./assets/css/login.css" />
-
-    <!-- bootstrap -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Images/Logo-shortform.png">
+    <link rel="stylesheet" href="~/css/login.css" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
-
 </head>
 
 <body>
@@ -39,30 +32,37 @@
                 <div class="text-center">
                     <img src="~/img/Logo-new.png" alt="Logo" style="width: 150px; height: 150px" />
                 </div>
-                <form>
+
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <div class="alert alert-danger text-center">@ViewBag.Error</div>
+                }
+
+                <!-- ✅ Updated Form with POST -->
+                <form asp-controller="Account" asp-action="Login" method="post">
                     <!-- Email Input -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email/Phone Number</label>
-                        <input type="email" class="form-control bg-light" id="email" placeholder="admin@gmail.com" />
+                        <input type="email" class="form-control bg-light" name="Email" placeholder="admin@gmail.com" required />
                     </div>
 
                     <!-- Password Input -->
                     <div class="mb-3 position-relative">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control bg-light" id="password" placeholder="Enter Password" />
+                        <input type="password" class="form-control bg-light" name="Password" placeholder="Enter Password" required />
                     </div>
 
                     <!-- Submit Button -->
                     <div class="d-grid">
-                        <a type="submit" asp-controller="Admin" asp-action="Index" class="btn btn-warning">Login</a>
+                        <button type="submit" class="btn btn-warning">Login</button>
                     </div>
+
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="./assets/js/login.js"></script>
-    <!-- bootstrap -->
+    <script src="~/js/login.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
 </body>
 

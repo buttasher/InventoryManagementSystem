@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_masterlayout.cshtml";
+    Layout = "~/Views/Shared/_cashierlayout.cshtml";
 }
 
 <div class="page-header">
@@ -41,10 +41,10 @@
                 </div>
             </div>
 
-            
+
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
-                    <label asp-for="ProductId" ></label>
+                    <label asp-for="ProductId"></label>
                     <select asp-for="ProductId" asp-items="ViewBag.ProductId" class="form-control"></select>
                     <span asp-validation-for="ProductId"></span>
                 </div>
@@ -52,7 +52,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label asp-for="TransactionId"></label>
-                    <input asp-for="TransactionId" class="form-control" />
+                    <select asp-for="TransactionId" asp-items="ViewBag.TransactionId" class="form-control" ></select>
                     <span asp-validation-for="TransactionId"></span>
                 </div>
             </div>
@@ -60,7 +60,7 @@
 
             <div class="col-lg-12">
                 <input type="submit" value="Create" class="btn btn-submit me-2" />
-                <a asp-action="Index" class="btn btn-cancel">Back to List</a>
+                <a asp-controller="POS" asp-action="Index" class="btn btn-cancel">Back</a>
             </div>
         </form>
     </div>

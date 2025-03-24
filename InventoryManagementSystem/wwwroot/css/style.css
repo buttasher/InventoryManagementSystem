@@ -8080,7 +8080,7 @@ span.select2-container.select2-container--default.select2-container--open {
     color: #fff
 }
 
-.btn-return {
+.my-btn-return {
     border: 2px solid #6C757D;
     color: #6C757D;
     width: 100%;
@@ -8090,7 +8090,7 @@ span.select2-container.select2-container--default.select2-container--open {
     margin-bottom: 20px
 }
 
-.btn-return:hover {
+.my-btn-return:hover {
     background: #6C757D;
     color: #fff
 }
