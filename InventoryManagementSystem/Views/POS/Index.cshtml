@@ -97,15 +97,15 @@
                     <ul>
                         <li>
                             <h5>Subtotal</h5>
-                            <h6>Rs 00.00</h6>
+                            <h6 id="subtotal" data-subtotal="00.00">Rs 00.00</h6>
                         </li>
                         <li>
                             <h5>Tax</h5>
-                            <h6>Rs 00.00</h6>
+                            <h6 id="tax" data-tax="00.00">Rs 00.00</h6>
                         </li>
                         <li class="total-value">
                             <h5>Total</h5>
-                            <h6>Rs .00</h6>
+                            <h6 id="totalAmount" data-total="00.00">Rs 00.00</h6>
                         </li>
                     </ul>
                 </div>
@@ -174,43 +174,53 @@
             }
         });
 
-        // When a Checkout is press, push details and add to the transaction and transactiondetail table
-        $(document).ready(function () {
-            $("#checkoutBtn").on("click", function () {
-                let transactionData = {
-                    UserId: 5,  // Replace with actual user ID
-                    CustomerId: 2,  // Replace with actual customer ID
-                    PaymentMethodId: 1,  // Replace with actual payment method ID
-                    TransactionDate: new Date().toISOString(), // Ensure this is sent
-                    Subtotal: 100.00,
-                    Tax: 5.00,
-                    TotalAmount: 105.00,
-                    Products: [
-                        { ProductId: 1002, Quantity: 2, Price: 50.00 }
-                    ]
-                };
+        $("#checkoutBtn").on("click", function () {
+            let subtotal = parseFloat($("#subtotal").attr("data-subtotal")) || 0;
+            let tax = parseFloat($("#tax").attr("data-tax")) || 0;
+            let totalAmount = parseFloat($("#totalAmount").attr("data-total")) || 0;
 
-                // Debugging: Check the JSON being sent
-                console.log("Transaction Data Sent:", JSON.stringify(transactionData));
+            let products = [];
+            $("#orderListBody tr").each(function () {
+                let productId = $(this).data("product-id");
+                let quantity = parseInt($(this).find(".order-qty").val());
+                let price = parseFloat($(this).find("td:nth-child(5)").text());
 
-                $.ajax({
-                    url: "/Checkout",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(transactionData),
-                    success: function (response) {
-                        alert("Transaction Successful!");
-                        location.reload();
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("XHR:", xhr);
-                        console.log("Status:", status);
-                        console.log("Error:", error);
-                        alert("Error: " + xhr.responseText);
-                    }
-                });
+                if (productId && quantity > 0 && price > 0) {
+                    products.push({ ProductId: productId, Quantity: quantity, Price: price });
+                }
+            });
+            let transactionData = {
+                UserId: 5, // Hardcoded for now
+                CustomerId: 2, // Replace with actual customer ID
+                PaymentMethodId: 1, // Hardcoded for now
+                TransactionDate: new Date().toISOString(),
+                Subtotal: subtotal,
+                Tax: tax,
+                TotalAmount: totalAmount,
+                Products: products
+            };
+
+            console.log("Transaction Data Sent:", JSON.stringify(transactionData));
+
+            $.ajax({
+                url: "/Checkout",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(transactionData),
+                success: function (response) {
+                    alert("Transaction Successful!");
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.log("XHR:", xhr);
+                    console.log("Status:", status);
+                    console.log("Error:", error);
+                    alert("Error: " + xhr.responseText);
+                }
             });
         });
+
+
 
 
 
@@ -270,15 +280,20 @@
                     subtotal += rowTotal;
                 }
             });
-            var taxRate = 0.10; // For example, a 10% tax rate
+
+            var taxRate = 0.10; // Example: 10% tax rate
             var tax = subtotal * taxRate;
             var total = subtotal + tax;
+
+            // Update the display and data attributes
+            $("#subtotal").text("Rs " + subtotal.toFixed(2)).attr("data-subtotal", subtotal.toFixed(2));
+            $("#tax").text("Rs " + tax.toFixed(2)).attr("data-tax", tax.toFixed(2));
+            $("#totalAmount").text("Rs " + total.toFixed(2)).attr("data-total", total.toFixed(2));
+
+            // Update total items count
             $("#totalItems").text("Total items : " + $("#orderListBody tr").length);
-            // Update the totals in your setvalue section
-            $(".setvalue ul li:nth-child(1) h6").text("Rs " + subtotal.toFixed(2));
-            $(".setvalue ul li:nth-child(2) h6").text("Rs " + tax.toFixed(2));
-            $(".setvalue ul li:nth-child(3) h6").text("Rs " + total.toFixed(2));
         }
+
 
         // Optionally, fetch a new transaction id from the server
         $.ajax({
