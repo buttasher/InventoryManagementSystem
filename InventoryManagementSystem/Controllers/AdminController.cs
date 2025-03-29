@@ -21,7 +21,7 @@ namespace InventoryManagementSystem.Controllers
         {
             if (HttpContext.Session.GetString("UserRole") != "Admin")
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Login", "Account");
             }
             return View();
         }
@@ -31,7 +31,7 @@ namespace InventoryManagementSystem.Controllers
         {
             if (HttpContext.Session.GetString("UserRole") != "Admin")
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Login", "Account");
             }
 
             var staff = await _context.Users.Where(u => u.Role == "Staff").ToListAsync();
@@ -43,7 +43,7 @@ namespace InventoryManagementSystem.Controllers
         {
             if (HttpContext.Session.GetString("UserRole") != "Admin")
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Login", "Account");
             }
 
             return View();
@@ -55,7 +55,7 @@ namespace InventoryManagementSystem.Controllers
         {
             if (HttpContext.Session.GetString("UserRole") != "Admin")
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Login", "Account");
             }
 
             var staff = new User

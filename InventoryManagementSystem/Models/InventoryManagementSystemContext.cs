@@ -212,9 +212,16 @@ public partial class InventoryManagementSystemContext : DbContext
             entity.Property(e => e.TransactionId).HasColumnName("TransactionID");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodID");
-            entity.Property(e => e.PaymentStatus)
-                .HasMaxLength(10)
-                .HasDefaultValueSql("(NULL)");
+
+            entity.Property(e => e.Tax)
+                .HasDefaultValueSql("(NULL)")
+                .HasColumnType("decimal(10,2)");
+
+            entity.Property(e => e.Subtotal)
+                .HasDefaultValueSql("(NULL)")
+                .HasColumnType("decimal(10,2)");
+
+
             entity.Property(e => e.TotalAmount)
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnType("decimal(10, 0)");

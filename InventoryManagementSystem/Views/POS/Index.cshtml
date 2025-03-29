@@ -1,39 +1,36 @@
-﻿
+﻿@model InventoryManagementSystem.Models.Product
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_cashierlayout.cshtml";
 }
+
 <div class="row">
+    <!-- Left Section: Order List Table -->
     <div class="col-lg-8 col-sm-12 tabs_wrapper">
-        <div class="page-header ">
+        <div class="page-header">
             <div class="page-title">
                 <div class="orderid">
                     <h4>Order List</h4>
-                    <h5>Transaction id : #65565</h5>
+                    <h5 id="transactionIdDisplay">Transaction id : #00000</h5>
                 </div>
             </div>
-
         </div>
         <div class="card-body pt-0">
             <div class="totalitem">
-                <h4>Total items : 4</h4>
-                <a href="javascript:void(0);">Clear all</a>
+                <h4 id="totalItems">Total items : #000</h4>
+                <a  id="clearAll">Clear all</a>
             </div>
+
             <div class="product-table">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>
-                                    <label class="checkboxs">
-                                        <input type="checkbox" id="select-all">
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </th>
-                                <th>Item Name</th>
-                                <th>Item Id</th>
-                                <th>Category </th>
-                                <th>Tax</th>
+                                <th>Product Id</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Brand</th>
                                 <th>Price</th>
                                 <th>Unit</th>
                                 <th>Qty</th>
@@ -41,293 +38,44 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox">
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td>Macbook pro</td>
-                                <td>PT001</td>
-                                <td>Computers</td>
-                                <td>N/D</td>
-                                <td>1500.00</td>
-                                <td>pc</td>
-                                <td>100.00</td>
-                                <td>Admin</td>
-                                <td>
-                                    <div class="increment-decrement">
-                                        <div class="input-groups">
-                                            <input type="button" value="-"
-                                                   class="button-minus dec button">
-                                            <input type="text" name="child" value="0"
-                                                   class="quantity-field">
-                                            <input type="button" value="+"
-                                                   class="button-plus inc button ">
-
-                                            <a class="confirm-text ms-3 mt-1" href="javascript:void(0);">
-                                                <img src="~/img/icons/delete.svg" alt="img">
-                                            </a>
-                                        </div>
-
-                                    </div>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox">
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td>Orange</td>
-                                <td>PT002</td>
-                                <td>Fruits</td>
-                                <td>N/D</td>
-                                <td>10.00</td>
-                                <td>pc</td>
-                                <td>100.00</td>
-                                <td>Admin</td>
-                                <td>
-                                    <div class="increment-decrement">
-                                        <div class="input-groups">
-                                            <input type="button" value="-"
-                                                   class="button-minus dec button">
-                                            <input type="text" name="child" value="0"
-                                                   class="quantity-field">
-                                            <input type="button" value="+"
-                                                   class="button-plus inc button ">
-                                            <a class="confirm-text ms-3 mt-1" href="javascript:void(0);">
-                                                <img src="~/img/icons/delete.svg" alt="img">
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox">
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td>Pineapple</td>
-                                <td>PT003</td>
-                                <td>Fruits</td>
-                                <td>N/D</td>
-                                <td>10.00</td>
-                                <td>pc</td>
-                                <td>100.00</td>
-                                <td>Admin</td>
-                                <td>
-                                    <div class="increment-decrement">
-                                        <div class="input-groups">
-                                            <input type="button" value="-"
-                                                   class="button-minus dec button">
-                                            <input type="text" name="child" value="0"
-                                                   class="quantity-field">
-                                            <input type="button" value="+"
-                                                   class="button-plus inc button ">
-                                            <a class="confirm-text ms-3 mt-1" href="javascript:void(0);">
-                                                <img src="~/img/icons/delete.svg" alt="img">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox">
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td>Strawberry</td>
-                                <td>PT004</td>
-                                <td>Fruits</td>
-                                <td>N/D</td>
-                                <td>10.00</td>
-                                <td>pc</td>
-                                <td>100.00</td>
-                                <td>Admin</td>
-                                <td>
-                                    <div class="increment-decrement">
-                                        <div class="input-groups">
-                                            <input type="button" value="-"
-                                                   class="button-minus dec button">
-                                            <input type="text" name="child" value="0"
-                                                   class="quantity-field">
-                                            <input type="button" value="+"
-                                                   class="button-plus inc button ">
-                                            <a class="confirm-text ms-3 mt-1" href="javascript:void(0);">
-                                                <img src="~/img/icons/delete.svg" alt="img">
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox">
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td>Avocat</td>
-                                <td>PT005</td>
-                                <td>Accessories</td>
-                                <td>N/D</td>
-                                <td>10.00</td>
-                                <td>pc</td>
-                                <td>150.00</td>
-                                <td>Admin</td>
-                                <td>
-                                    <div class="increment-decrement">
-                                        <div class="input-groups">
-                                            <input type="button" value="-"
-                                                   class="button-minus dec button">
-                                            <input type="text" name="child" value="0"
-                                                   class="quantity-field">
-                                            <input type="button" value="+"
-                                                   class="button-plus inc button ">
-                                            <a class="confirm-text ms-3 mt-1" href="javascript:void(0);">
-                                                <img src="~/img/icons/delete.svg" alt="img">
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox">
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td>Macbook Pro</td>
-                                <td>PT006</td>
-                                <td>Shoes</td>
-                                <td>N/D</td>
-                                <td>10.00</td>
-                                <td>pc</td>
-                                <td>100.00</td>
-                                <td>Admin</td>
-                                <td>
-                                    <div class="increment-decrement">
-                                        <div class="input-groups">
-                                            <input type="button" value="-"
-                                                   class="button-minus dec button">
-                                            <input type="text" name="child" value="0"
-                                                   class="quantity-field">
-                                            <input type="button" value="+"
-                                                   class="button-plus inc button ">
-                                            <a class="confirm-text ms-3 mt-1" href="javascript:void(0);">
-                                                <img src="~/img/icons/delete.svg" alt="img">
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox">
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td>Apple Earpods</td>
-                                <td>PT007</td>
-                                <td>Shoes</td>
-                                <td>N/D</td>
-                                <td>10.00</td>
-                                <td>pc</td>
-                                <td>100.00</td>
-                                <td>Admin</td>
-                                <td>
-                                    <div class="increment-decrement">
-                                        <div class="input-groups">
-                                            <input type="button" value="-"
-                                                   class="button-minus dec button">
-                                            <input type="text" name="child" value="0"
-                                                   class="quantity-field">
-                                            <input type="button" value="+"
-                                                   class="button-plus inc button ">
-                                            <a class="confirm-text ms-3 mt-1" href="javascript:void(0);">
-                                                <img src="~/img/icons/delete.svg" alt="img">
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="checkboxs">
-                                        <input type="checkbox">
-                                        <span class="checkmarks"></span>
-                                    </label>
-                                </td>
-                                <td>iPhone 11</td>
-                                <td>PT008</td>
-                                <td>Fruits</td>
-                                <td>N/D</td>
-                                <td>10.00</td>
-                                <td>pc</td>
-                                <td>100.00</td>
-                                <td>Admin</td>
-                                <td>
-                                    <div class="increment-decrement">
-                                        <div class="input-groups">
-                                            <input type="button" value="-"
-                                                   class="button-minus dec button">
-                                            <input type="text" name="child" value="0"
-                                                   class="quantity-field">
-                                            <input type="button" value="+"
-                                                   class="button-plus inc button ">
-                                            <a class="confirm-text ms-3 mt-1" href="javascript:void(0);">
-                                                <img src="~/img/icons/delete.svg" alt="img">
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </td>
-                            </tr>
-
+                        <tbody id="orderListBody">
+                            <!-- Order items will be appended here dynamically -->
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-sm-12 ">
+
+    <!-- Right Section: Controls and Product Lookup -->
+    <div class="col-lg-4 col-sm-12">
         <div class="order-list">
+            <!-- You may have additional order-related information here -->
         </div>
         <div class="card card-order">
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <a asp-controller="Customers" asp-action="Create" class="btn btn-adds"><i class="fa fa-plus me-2"></i>Add Customer</a>
-
+                        <a asp-controller="Customers" asp-action="Create" class="btn btn-adds">
+                            <i class="fa fa-plus me-2"></i>Add Customer
+                        </a>
                     </div>
                     <div class="col-12">
                         <a asp-controller="Returnitems" asp-action="Create" class="btn my-btn-return">
                             <i class="fa fa-plus me-2"></i>Add Return Item
                         </a>
                     </div>
+                    <!-- Product ID Lookup Dropdown -->
                     <div class="col-lg-12">
                         <div class="select-split">
                             <div class="select-group w-100">
-                                <select class="select">
-                                    <option>Product </option>
-                                    <option>Barcode</option>
+                                <label for="ProductId">Search Product ID</label>
+                                <select id="ProductId" class="form-control select2">
+                                    <option value="">Select Product ID</option>
+                                    @foreach (var item in ViewBag.ProductId as SelectList)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -335,31 +83,28 @@
                     <div class="col-12">
                         <div class="text-end">
                             <a class="btn btn-scanner-set">
-                                <img src="~/img/icons/scanner1.svg"
-                                     alt="img" class="me-2">Scan bardcode
+                                <img src="~/img/icons/scanner1.svg" alt="img" class="me-2">
+                                Scan barcode
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="split-card">
-            </div>
-
-            <div class="split-card">
-            </div>
+            <div class="split-card"></div>
+            <div class="split-card"></div>
             <div class="card-body pt-0 pb-2">
                 <div class="setvalue">
                     <ul>
                         <li>
-                            <h5>Subtotal </h5>
-                            <h6>Rs 10.00</h6>
+                            <h5>Subtotal</h5>
+                            <h6>Rs 00.00</h6>
                         </li>
                         <li>
-                            <h5>Tax </h5>
-                            <h6>Rs 5.00</h6>
+                            <h5>Tax</h5>
+                            <h6>Rs 00.00</h6>
                         </li>
                         <li class="total-value">
-                            <h5>Total </h5>
+                            <h5>Total</h5>
                             <h6>Rs .00</h6>
                         </li>
                     </ul>
@@ -387,11 +132,168 @@
                     </ul>
                 </div>
                 <div class="btn-totallabel">
-                    <h5>Checkout</h5>
-                    <h6>Rs 60.00</h6>
+                    <a id="checkoutBtn"> Checkout</a>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+
+<!-- Include jQuery and Select2 from CDN -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize the Select2 dropdown for product lookup
+        $("#ProductId").select2({
+            placeholder: "Select Product ID",
+            allowClear: true
+        });
+
+        // When a product is selected, fetch details and add to the order list table
+        $("#ProductId").on("change", function () {
+            var productId = $(this).val();
+            if (productId) {
+                $.ajax({
+                    url: '/POS/GetProductDetails', // Your endpoint to fetch product details
+                    type: 'GET',
+                    data: { id: productId },
+                    success: function (product) {
+                        if (product) {
+                            addProductToOrderList(product);
+                        } else {
+                            alert('No product found with the selected ID.');
+                        }
+                    },
+                    error: function () {
+                        alert('Error fetching product details.');
+                    }
+                });
+            }
+        });
+
+        // When a Checkout is press, push details and add to the transaction and transactiondetail table
+        $(document).ready(function () {
+            $("#checkoutBtn").on("click", function () {
+                let transactionData = {
+                    UserId: 5,  // Replace with actual user ID
+                    CustomerId: 2,  // Replace with actual customer ID
+                    PaymentMethodId: 1,  // Replace with actual payment method ID
+                    TransactionDate: new Date().toISOString(), // Ensure this is sent
+                    Subtotal: 100.00,
+                    Tax: 5.00,
+                    TotalAmount: 105.00,
+                    Products: [
+                        { ProductId: 1002, Quantity: 2, Price: 50.00 }
+                    ]
+                };
+
+                // Debugging: Check the JSON being sent
+                console.log("Transaction Data Sent:", JSON.stringify(transactionData));
+
+                $.ajax({
+                    url: "/Checkout",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(transactionData),
+                    success: function (response) {
+                        alert("Transaction Successful!");
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("XHR:", xhr);
+                        console.log("Status:", status);
+                        console.log("Error:", error);
+                        alert("Error: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+
+
+        // Function to append product details as a new row in the order list table
+        function addProductToOrderList(product) {
+            var newRow = `
+                    <tr data-product-id="${product.productId}">
+                        
+                        <td>${product.productId}</td>
+                        <td>${product.itemName}</td>
+                        <td>${product.category ? product.category.categoryName : "N/A"}</td>
+                        <td>${product.brand}</td>
+                        <td>${product.price}</td>
+                        <td>${product.unit}</td>
+                        <td>
+                            <input type="number" value="1" min="1" class="form-control order-qty" style="width: 60px;">
+                        </td>
+                        <td class="row-total">${product.price}</td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+                        </td>
+                    </tr>
+                `;
+            $("#orderListBody").append(newRow);
+            updateOrderTotals(); // Update totals after adding a new row
+        }
+
+        // Remove item from the order list when the "Remove" button is clicked
+        $("#orderListBody").on("click", ".remove-item", function () {
+            $(this).closest("tr").remove();
+            updateOrderTotals(); // Update totals after removal
+        });
+
+        // Update row total when quantity changes
+        $("#orderListBody").on("change", ".order-qty", function () {
+            var qty = parseInt($(this).val());
+            var row = $(this).closest("tr");
+            var price = parseFloat(row.find("td:nth-child(5)").text());
+            var total = qty * price;
+            row.find(".row-total").text(total.toFixed(2));
+            updateOrderTotals(); // Update totals after quantity change
+        });
+
+        // Clear all button: remove all rows from the order list table
+        $("#clearAll").on("click", function (e) {
+            e.preventDefault();
+            $("#orderListBody").empty();
+            updateOrderTotals(); // Update totals after clearing the table
+        });
+
+        // Function to update the total number of items in the order list table and calculate totals
+        function updateOrderTotals() {
+            var subtotal = 0;
+            $("#orderListBody tr").each(function () {
+                var rowTotal = parseFloat($(this).find(".row-total").text());
+                if (!isNaN(rowTotal)) {
+                    subtotal += rowTotal;
+                }
+            });
+            var taxRate = 0.10; // For example, a 10% tax rate
+            var tax = subtotal * taxRate;
+            var total = subtotal + tax;
+            $("#totalItems").text("Total items : " + $("#orderListBody tr").length);
+            // Update the totals in your setvalue section
+            $(".setvalue ul li:nth-child(1) h6").text("Rs " + subtotal.toFixed(2));
+            $(".setvalue ul li:nth-child(2) h6").text("Rs " + tax.toFixed(2));
+            $(".setvalue ul li:nth-child(3) h6").text("Rs " + total.toFixed(2));
+        }
+
+        // Optionally, fetch a new transaction id from the server
+        $.ajax({
+            url: '/POS/GetNewTransactionId', // Endpoint to get a new transaction id
+            type: 'GET',
+            success: function (data) {
+                if (data && data.transactionId) {
+                    $("#transactionIdDisplay").text("Transaction id : #" + data.transactionId);
+                }
+            },
+            error: function () {
+                console.log("Error fetching new transaction id.");
+            }
+        });
+    });
+</script>
+
+

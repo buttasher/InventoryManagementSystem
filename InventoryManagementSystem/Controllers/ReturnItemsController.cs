@@ -48,17 +48,41 @@ namespace InventoryManagementSystem.Controllers
         // GET: Returnitems/Create
         public IActionResult Create()
         {
-            ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId");
-            ViewData["TransactionId"] = new SelectList(_context.Transactions, "TransactionId", "TransactionId");
+            var products = _context.Products.ToList();
+            var transactions = _context.Transactions.ToList();
+
+            // Handle empty or null products list
+            if (products == null || products.Count == 0)
+            {
+                ViewData["ProductId"] = new SelectList(new List<SelectListItem>());
+            }
+            else
+            {
+                ViewData["ProductId"] = new SelectList(products, "ProductId", "ProductId");
+            }
+
+            // Handle empty or null transactions list
+            if (transactions == null || transactions.Count == 0)
+            {
+                
+                ViewData["TransactionId"] = new SelectList(new List<SelectListItem>());
+            }
+            else
+            {
+                ViewData["TransactionId"] = new SelectList(transactions, "TransactionId", "TransactionId");
+            }
+
             return View();
         }
+
+
 
         // POST: Returnitems/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReturnItemsId,TransactionId,ProductId,ReturnQuantity,ReturnReason,ReturnDate,Status")] Returnitem returnitem)
+        public async Task<IActionResult> Create([Bind("ReturnItemsId,TransactionId,ProductId,ReturnQuantity,ReturnReason,ReturnDate")] Returnitem returnitem)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +118,7 @@ namespace InventoryManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReturnItemsId,TransactionId,ProductId,ReturnQuantity,ReturnReason,ReturnDate,Status")] Returnitem returnitem)
+        public async Task<IActionResult> Edit(int id, [Bind("ReturnItemsId,TransactionId,ProductId,ReturnQuantity,ReturnReason,ReturnDate")] Returnitem returnitem)
         {
             if (id != returnitem.ReturnItemsId)
             {
