@@ -1,6 +1,9 @@
 ﻿using InventoryManagementSystem.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -15,17 +18,28 @@ namespace InventoryManagementSystem.Controllers
 
         public IActionResult Index()
         {
+            
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            int? customerId = HttpContext.Session.GetInt32("CustomerId");
+            int? returnItemId = HttpContext.Session.GetInt32("ReturnItemId");
+
             if (HttpContext.Session.GetString("UserRole") != "Staff")
             {
                 return RedirectToAction("Login", "Account");
             }
 
+            
+            ViewBag.UserId = userId;
+            ViewBag.CustomerId = customerId;
+            ViewBag.ReturnItemId = returnItemId;
+
             // Fetch all product IDs and pass them to the view
             ViewBag.ProductId = new SelectList(_context.Products, "ProductId", "ProductId");
             ViewBag.TransactionId = new SelectList(_context.Transactions, "TransactionId", "TransactionId");
+            
             return View(); 
         }
-
+        
         [HttpGet]
         public IActionResult GetProductDetails(int id)
         {

@@ -33,8 +33,10 @@ namespace InventoryManagementSystem.Controllers
             if (user != null)
             {
                 // Store role in session
+                HttpContext.Session.SetInt32("UserId", user.UserId);
                 HttpContext.Session.SetString("UserRole", user.Role);
                 HttpContext.Session.SetString("FullName", user.FullName);
+               
 
                 if (user.Role == "Admin")
                 {

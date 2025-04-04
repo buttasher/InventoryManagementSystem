@@ -9,6 +9,7 @@
     <!-- Left Section: Order List Table -->
     <div class="col-lg-8 col-sm-12 tabs_wrapper">
         <div class="page-header">
+
             <div class="page-title">
                 <div class="orderid">
                     <h4>Order List</h4>
@@ -54,6 +55,9 @@
         </div>
         <div class="card card-order">
             <div class="card-body">
+                <input type="hidden" id="loggedInUserId" value="@ViewBag.UserId" />
+                <input type="hidden" id="customerId" value="@ViewBag.CustomerId" />
+                <input type="hidden" id="returnItemId" value="@ViewBag.ReturnItemId" />
                 <div class="row">
                     <div class="col-12">
                         <a asp-controller="Customers" asp-action="Create" class="btn btn-adds">
@@ -175,6 +179,9 @@
         });
 
         $("#checkoutBtn").on("click", function () {
+            let loggedInUserId = $("#loggedInUserId").val(); // Get UserId dynamically
+            let customerId = $('#customerId').val() || 0;
+            let returnItemId = $('#returnItemId').val() || 0;
             let subtotal = parseFloat($("#subtotal").attr("data-subtotal")) || 0;
             let tax = parseFloat($("#tax").attr("data-tax")) || 0;
             let totalAmount = parseFloat($("#totalAmount").attr("data-total")) || 0;
@@ -190,9 +197,9 @@
                 }
             });
             let transactionData = {
-                UserId: 5, // Hardcoded for now
-                CustomerId: 2, // Replace with actual customer ID
-                PaymentMethodId: 1, // Hardcoded for now
+                UserId: loggedInUserId,  
+                CustomerId: customerId, 
+                PaymentMethodId: returnItemId,
                 TransactionDate: new Date().toISOString(),
                 Subtotal: subtotal,
                 Tax: tax,

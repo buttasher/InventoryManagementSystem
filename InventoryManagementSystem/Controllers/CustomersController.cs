@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventoryManagementSystem.Models;
+using Microsoft.AspNet.Identity;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -61,6 +62,7 @@ namespace InventoryManagementSystem.Controllers
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetInt32("CustomerId", customer.CustomerId);
                 return RedirectToAction("Index", "POS");
             }
            

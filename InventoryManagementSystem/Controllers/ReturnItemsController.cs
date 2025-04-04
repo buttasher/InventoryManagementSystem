@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventoryManagementSystem.Models;
+using Org.BouncyCastle.Ocsp;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -50,7 +51,7 @@ namespace InventoryManagementSystem.Controllers
         {
             var products = _context.Products.ToList();
             var transactions = _context.Transactions.ToList();
-
+            
             // Handle empty or null products list
             if (products == null || products.Count == 0)
             {
@@ -71,7 +72,7 @@ namespace InventoryManagementSystem.Controllers
             {
                 ViewData["TransactionId"] = new SelectList(transactions, "TransactionId", "TransactionId");
             }
-
+           
             return View();
         }
 
@@ -88,6 +89,7 @@ namespace InventoryManagementSystem.Controllers
             {
                 _context.Add(returnitem);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetInt32("ReturnItemId", returnitem.ReturnItemsId);
                 return RedirectToAction("Index","POS");
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", returnitem.ProductId);

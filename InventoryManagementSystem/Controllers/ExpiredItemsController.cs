@@ -22,6 +22,7 @@ namespace InventoryManagementSystem.Controllers
             // Convert DateTime.UtcNow to DateOnly for comparison
             DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
 
+         
             var expiredItems = await _context.Expireditems
                 .Where(e => e.ExpireDate < today)  // Corrected type comparison
                 .ToListAsync();
