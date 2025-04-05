@@ -56,7 +56,7 @@ namespace InventoryManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ItemName,ItemId,CategoryId,Brand,Price,Unit,Quantity,ManufactureDate,ExpiryDate,CreatedAt")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ItemName,ItemId,CategoryId,Brand,CostPrice,SellingPrice,Unit,Quantity,ManufactureDate,ExpiryDate,CreatedAt")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace InventoryManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ItemName,ItemId,CategoryId,Brand,Price,Unit,Quantity,ManufactureDate,ExpiryDate,CreatedAt")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ItemName,ItemId,CategoryId,Brand,CostPrice,SellingPrice,Unit,Quantity,ManufactureDate,ExpiryDate,CreatedAt")] Product product)
         {
             if (id != product.ProductId)
             {

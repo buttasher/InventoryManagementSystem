@@ -57,7 +57,8 @@
                         <th>Product Id</th>
                         <th>Item Name</th>
                         <th>Brand </th>
-                        <th>Price</th>
+                        <th>CostPrice</th>
+                        <th>SellingPrice</th>
                         <th>Unit</th>
                         <th>Qty</th>
                         <th>MFG Date</th>
@@ -80,7 +81,10 @@
                                 @Html.DisplayFor(modelItem => item.Brand)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Price)
+                                @Html.DisplayFor(modelItem => item.CostPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SellingPrice)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Unit)

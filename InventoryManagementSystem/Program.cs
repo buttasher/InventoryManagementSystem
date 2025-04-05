@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,26 +7,32 @@ var builder = WebApplication.CreateBuilder(args);
 // 🔹 Register database context
 builder.Services.AddDbContext<InventoryManagementSystemContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
-
+// 🔹 Register AIReportingService 🔧 (ADD THIS LINE)
+builder.Services.AddScoped<AiReportingService>();
+// 🔹 Register HttpClient service
+builder.Services.AddHttpClient();
 // 🔹 Add controllers and views
 builder.Services.AddControllersWithViews();
 
+// 🔹 Add IHttpContextAccessor
+builder.Services.AddHttpContextAccessor();
+
 // 🔹 Add session services with Secure Cookies
-builder.Services.AddDistributedMemoryCache();
+builder.Services.AddDistributedMemoryCache();  // Adds in-memory cache for session
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
     options.Cookie.HttpOnly = true; // Security: Prevents JavaScript access
     options.Cookie.IsEssential = true; // Required for session cookies
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // 🔹 Enforce HTTPS for cookies
-    options.Cookie.SameSite = SameSiteMode.None; // 🔹 Allow cookies for cross-origin requests
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Enforce HTTPS for cookies
+    options.Cookie.SameSite = SameSiteMode.None; // Allow cookies for cross-origin requests
 });
 
 // 🔹 Add cookie policy explicitly
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
-    options.MinimumSameSitePolicy = SameSiteMode.None; // 🔹 Allow cross-origin cookies
-    options.Secure = CookieSecurePolicy.Always; // 🔹 Ensure cookies are only sent over HTTPS
+    options.MinimumSameSitePolicy = SameSiteMode.None; // Allow cross-origin cookies
+    options.Secure = CookieSecurePolicy.Always; // Ensure cookies are only sent over HTTPS
 });
 
 var app = builder.Build();
@@ -43,6 +50,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 
 // 🔹 Apply cookie policy middleware

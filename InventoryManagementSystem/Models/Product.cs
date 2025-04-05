@@ -13,7 +13,9 @@ public partial class Product
 
     public string? Brand { get; set; }
 
-    public string? Price { get; set; }
+    public string? CostPrice { get; set; }
+
+    public string SellingPrice { get; set; } = null!;
 
     public string? Unit { get; set; }
 
@@ -28,7 +30,7 @@ public partial class Product
     public virtual Productcategory? Category { get; set; }
 
     public virtual ICollection<Expireditem> Expireditems { get; set; } = new List<Expireditem>();
-
+    public virtual ICollection<Lowstock> Lowstocks { get; set; } = new List<Lowstock>();
     public virtual ICollection<Returnitem> Returnitems { get; set; } = new List<Returnitem>();
 
     public virtual ICollection<Transactiondetail> Transactiondetails { get; set; } = new List<Transactiondetail>();

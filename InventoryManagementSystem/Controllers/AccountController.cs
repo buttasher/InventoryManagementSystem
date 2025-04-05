@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Controllers
 {
+
+   
     public class AccountController : Controller
     {
         private readonly InventoryManagementSystemContext _context;
@@ -55,10 +57,18 @@ namespace InventoryManagementSystem.Controllers
 
 
         // Logout
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+
+            // Manually delete any cookies that could be related to the authentication session
+            Response.Cookies.Delete("UserRole");
+            Response.Cookies.Delete("UserId");
+            Response.Cookies.Delete(".AspNetCore.Identity.Application"); // If using ASP.NET Identity
+
+
+            return RedirectToAction("Index", "Account");
         }
     }
 }

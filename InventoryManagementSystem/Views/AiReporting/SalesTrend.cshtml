@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Sales Trend Report";
+    Layout = "~/Views/Shared/_masterlayout.cshtml";
+    var reportGenerated = ViewData["ReportGenerated"] as bool?;
+    var reportDownloadUrl = ViewData["ReportDownloadUrl"] as string;
+}
+
+<div class="page-header">
+    <div class="page-title">
+        <h4>Sales Trend Report</h4>
+        <h6>Get your sales trends using AI</h6>
+    </div>
+</div>
+
+<div class="page-btn">
+    <!-- Form to call the GenerateReport action in the AiReportingController -->
+    <form asp-controller="AiReporting" asp-action="GenerateReport" method="post">
+        <button type="submit" class="btn btn-primary">
+            Generate Report
+        </button>
+    </form>
+</div>
+
+<!-- Optional: Display a loading message or status of the report generation -->
+@if (ViewData["ReportGenerated"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong> Your report is ready. <a href="@ViewData["ReportDownloadUrl"]" class="btn btn-link">Download PDF</a>
+    </div>
+}

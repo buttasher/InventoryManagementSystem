@@ -84,10 +84,6 @@
                 </li>
 
 
-                <li class="nav-item">
-                    <a asp-controller="Cashier" asp-action="Index" class="btn btn-block btn-warning " style="font-weight: bold;">POS</a>
-                </li>
-
                 <li class="nav-item dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <img src="~/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
@@ -202,8 +198,8 @@
                                     <img src="~/img/profiles/avator1.jpg" alt="">
                                     <span class="status online"></span></span>
                                 <div class="profilesets">
-                                    <h6>John Doe</h6>
-                                    <h5>Admin</h5>
+                                    <h6>@HttpContextAccessor.HttpContext.Session.GetString("FullName")</h6>
+                                    <h5>@HttpContextAccessor.HttpContext.Session.GetString("UserRole")</h5>
                                 </div>
                             </div>
                             <hr class="m-0">
@@ -286,9 +282,9 @@
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a href="salestrendreport.html">Sales Trend Report</a></li>
-                                <li><a href="productinsightreport.html">Product Insights Report</a></li>
-                                <li><a href="preferencepattern.html">Preferences & Patterns</a></li>
+                                <li><a asp-controller="AiReporting" asp-action="SalesTrend">Sales Trend Report</a></li>
+                                <li><a asp-controller="AiReporting" asp-action="ProductInsights">Products Insight Report</a></li>
+                                <li><a asp-controller="AiReporting" asp-action="CustomerSegmentation">Patterns and Preferences</a></li>
 
                             </ul>
                         </li>
@@ -341,7 +337,6 @@
 
     <script src="~/js/script.js"></script>
 
-   
 </body>
 
 </html>

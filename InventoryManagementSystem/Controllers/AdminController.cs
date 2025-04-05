@@ -15,14 +15,16 @@ namespace InventoryManagementSystem.Controllers
         {
             _context = context;
         }
-
+     
         // Step 1: Admin Dashboard
         public IActionResult Index()
         {
+           
             if (HttpContext.Session.GetString("UserRole") != "Admin")
             {
                 return RedirectToAction("Login", "Account");
             }
+
             return View();
         }
 
@@ -179,6 +181,8 @@ namespace InventoryManagementSystem.Controllers
 
             return View(user);
         }
+
+        
 
     }
 }

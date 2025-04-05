@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Sales Trend Report";
+    Layout = "~/Views/Shared/_masterlayout.cshtml";
+   
+}
+
+<div class="page-header">
+    <div class="page-title">
+        <h4>Pattern and Preference Report</h4>
+        <h6>Get your patterns and preferences using AI</h6>
+    </div>
+</div>
+
+<div class="page-btn">
+    <!-- Form to call the GenerateReport action in the AiReportingController -->
+    <form asp-controller="AiReporting" asp-action="GenerateCustomerSegmentationReport" method="post">
+        <button type="submit" class="btn btn-primary">
+            Generate Report
+        </button>
+    </form>
+</div>
+
+
+

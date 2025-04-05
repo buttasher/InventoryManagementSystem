@@ -51,7 +51,7 @@ namespace InventoryManagementSystem.Controllers
                     p.ItemName,
                     p.Category,
                     p.Brand,
-                    p.Price,
+                    p.SellingPrice,
                     p.Unit,
                     p.Quantity,
                     // Include any other fields you need
@@ -75,6 +75,7 @@ namespace InventoryManagementSystem.Controllers
             return Json(new { transactionId = newTransactionId });
         }
 
+       
         [HttpPost]
         [Route("Checkout")]
         public IActionResult Checkout([FromBody] CheckoutViewModel checkoutData)
