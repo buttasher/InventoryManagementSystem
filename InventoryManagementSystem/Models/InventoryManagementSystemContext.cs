@@ -89,6 +89,7 @@ public partial class InventoryManagementSystemContext : DbContext
 
             entity.ToTable("lowstock", "inventorymanagementsystem");
 
+            entity.HasIndex(e => e.ProductId, "fk_expireditems_products");
             entity.Property(e => e.Brand)
                 .HasMaxLength(100)
                 .HasDefaultValueSql("(NULL)");
@@ -99,6 +100,10 @@ public partial class InventoryManagementSystemContext : DbContext
                 .HasPrecision(0)
                 .HasDefaultValueSql("(getdate())");
             entity.Property(e => e.ItemName).HasMaxLength(255);
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Lowstocks)
+              .HasForeignKey(d => d.ProductId)
+              .HasConstraintName("expireditems$fk_expireditems_products");
         });
 
         modelBuilder.Entity<Paymentmethod>(entity =>
@@ -134,9 +139,11 @@ public partial class InventoryManagementSystemContext : DbContext
             entity.Property(e => e.ExpiryDate).HasDefaultValueSql("(NULL)");
             entity.Property(e => e.ItemName).HasMaxLength(150);
             entity.Property(e => e.ManufactureDate).HasDefaultValueSql("(NULL)");
-            entity.Property(e => e.Price)
+            entity.Property(e => e.CostPrice)
                 .HasMaxLength(100)
                 .HasDefaultValueSql("(NULL)");
+            entity.Property(e => e.SellingPrice)
+               .HasMaxLength(100);
             entity.Property(e => e.Quantity).HasDefaultValue(0);
             entity.Property(e => e.Unit)
                 .HasMaxLength(50)
