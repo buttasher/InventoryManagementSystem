@@ -10,8 +10,8 @@
                 <span><img src="~/img/icons/dash2.svg" alt="img"></span>
             </div>
             <div class="dash-widgetcontent">
-                <h5>Rs <span class="counters" data-count="4385.00">4,385.00</span></h5>
-                <h6>Today Sales Due</h6>
+                <h5>Rs <span class="counters" data-count="@ViewBag.TotalSalesToday"> @ViewBag.TotalSalesToday </span></h5>
+                <h6>Today Sale Due</h6>
             </div>
         </div>
     </div>
@@ -21,31 +21,31 @@
                 <span><img src="~/img/icons/dash3.svg" alt="img"></span>
             </div>
             <div class="dash-widgetcontent">
-                <h5>Rs <span class="counters" data-count="385656.50">385,656.50</span></h5>
-                <h6>Today Sale Amount</h6>
+                <h5>Rs <span class="counters" data-count="@ViewBag.TotalItemSold">@ViewBag.TotalItemSold</span></h5>
+                <h6>Total Item Sold</h6>
             </div>
         </div>
     </div>
     <div class="col-lg-3 col-sm-6 col-12 d-flex">
-        <a class="dash-count dash-btn" href="./expireditem.html">
+        <a class="dash-count dash-btn" asp-controller="ExpiredItems" asp-action="Index">
             <div class="dash-counts">
-                <h4>100</h4>
+                <h4>@ViewBag.ExpiredItems</h4>
                 <h5>Expired Items</h5>
             </div>
             <div class="dash-imgs">
-                <i data-feather="user"></i>
+                <i data-feather="alert-triangle"></i>
             </div>
         </a>
     </div>
 
     <div class="col-lg-3 col-sm-6 col-12 d-flex">
-        <a class="dash-count das3" href="./lowstock.html">
+        <a class="dash-count das3" asp-asp-controller="LowStock" asp-action="Index">
             <div class="dash-counts">
-                <h4>105</h4>
+                <h4>@ViewBag.LowStockItems</h4>
                 <h5>Low Stock Items</h5>
             </div>
             <div class="dash-imgs">
-                <i data-feather="file"></i>
+                <i data-feather="package"></i>
             </div>
         </a>
     </div>
@@ -58,36 +58,26 @@
                 <h5 class="card-title mb-0">Sales</h5>
                 <div class="graph-sets">
                     <ul>
-                        <li>
-                            <span>Sales</span>
-                        </li>
-                        <li>
-
-                        </li>
+                        <li><span>Sales</span></li>
                     </ul>
                     <div class="dropdown">
                         <button class="btn btn-white btn-sm dropdown-toggle" type="button"
-                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            2022 <img src="~/img/icons/dropdown.svg" alt="img" class="ms-2">
+                                id="yearDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span id="currentYearBtn"></span>
+                            <img src="~/img/icons/dropdown.svg" alt="img" class="ms-2">
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li>
-                                <a href="javascript:void(0);" class="dropdown-item">2024</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="dropdown-item">2023</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="dropdown-item">2022</a>
-                            </li>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="yearDropdownMenu">
+                            <!-- Year options will be added dynamically -->
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <div id="sales_charts"></div>
+                <canvas id="sales_charts" height="120"></canvas>
             </div>
         </div>
+
+
     </div>
 
 </div>
@@ -98,69 +88,174 @@
             <table class="table datatable ">
                 <thead>
                     <tr>
-                        <th>SNo</th>
-                        <th>Product Code</th>
-                        <th>Product Name</th>
-                        <th>Brand Name</th>
-                        <th>Category Name</th>
-                        <th>Expiry Date</th>
+                        <th>Item Id</th>
+                        <th>Item Name</th>
+                        <th>Category</th>
+                        <th>Manufacture Date</th>
+                        <th>Expire Date</th>
+                        <th>Alert</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><a href="javascript:void(0);">IT0001</a></td>
-                        <td class="productimgname">
-                            <a class="product-img" href="productlist.html">
-                                <img src="~/img/icons/product2.jpg" alt="product">
-                            </a>
-                            <a href="productlist.html">Orange</a>
-                        </td>
-                        <td>N/D</td>
-                        <td>Fruits</td>
-                        <td>12-12-2022</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><a href="javascript:void(0);">IT0002</a></td>
-                        <td class="productimgname">
-                            <a class="product-img" href="productlist.html">
-                                <img src="~/img/icons/product3.jpg" alt="product">
-                            </a>
-                            <a href="productlist.html">Pineapple</a>
-                        </td>
-                        <td>N/D</td>
-                        <td>Fruits</td>
-                        <td>25-11-2022</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td><a href="javascript:void(0);">IT0003</a></td>
-                        <td class="productimgname">
-                            <a class="product-img" href="productlist.html">
-                                <img src="~/img/icons/product4.jpg" alt="product">
-                            </a>
-                            <a href="productlist.html">Stawberry</a>
-                        </td>
-                        <td>N/D</td>
-                        <td>Fruits</td>
-                        <td>19-11-2022</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td><a href="javascript:void(0);">IT0004</a></td>
-                        <td class="productimgname">
-                            <a class="product-img" href="productlist.html">
-                                <img src="~/img/icons/product5.jpg" alt="product">
-                            </a>
-                            <a href="productlist.html">Avocat</a>
-                        </td>
-                        <td>N/D</td>
-                        <td>Fruits</td>
-                        <td>20-11-2022</td>
-                    </tr>
+                    @foreach (var item in (List<Expireditem>)ViewBag.ExpiredItemList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ManufactureDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ExpireDate)
+                            </td>
+                            <td>
+                                @if (item.Alert == 1)
+                                {
+                                    <span class="badge bg-danger">Expired Item</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Sufficient</span>
+                                }
+                            </td>
+
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to animate the counter
+        $('.counters').each(function () {
+            var countTo = $(this).attr('data-count'); // Get the target number from data-count
+            $(this).prop('Counter', 0).animate({
+                Counter: countTo
+            }, {
+                duration: 1000, // animation duration in milliseconds
+                easing: 'swing', // easing function
+                step: function (now) {
+                    $(this).text(Math.ceil(now)); // Update the text to the animated number
+                }
+            });
+        });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        feather.replace();
+    });
+
+    let chart;
+
+    function loadChart(year) {
+        $.ajax({
+            url: '/Admin/GetMonthlySales?year=' + year,
+            method: 'GET',
+            success: function (res) {
+                let maxValue = Math.max(...res.data);
+                let roundedMax = Math.ceil(maxValue / 10000) * 10000;
+
+                const ctx = document.getElementById('sales_charts').getContext('2d');
+
+                if (chart) chart.destroy();
+
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: res.labels,
+                        datasets: [{
+                            label: `Sales - ${year}`,
+                            data: res.data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        return `Rs ${context.parsed.y.toLocaleString()}`;
+                                    },
+                                    afterLabel: function (context) {
+                                        const index = context.dataIndex;
+                                        return `(${res.percentages[index]}% of year)`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                           
+                            y: {
+                                beginAtZero: true,
+                                max: roundedMax,
+                                ticks: {
+                                    callback: function (value) {
+                                        return `Rs ${value.toLocaleString()}`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        
+        const currentYear = new Date().getFullYear();
+        loadChart(currentYear);
+
+        // After chart load, resize it to fit its container
+        $(window).resize(function () {
+            if (chart) {
+                chart.resize();
+            }
+        });
+        const years = [2024, 2023, 2022];
+
+        // Add current year at the top if it's not already in the list
+        if (!years.includes(currentYear)) {
+            years.unshift(currentYear);
+        }
+
+        // Set current year as button label
+        $('#currentYearBtn').text(currentYear);
+
+        // Dynamically generate year dropdown
+        let yearDropdownHTML = '';
+        years.forEach(y => {
+            yearDropdownHTML += `<li><a href="javascript:void(0);" class="dropdown-item year-option" data-year="${y}">${y}</a></li>`;
+        });
+        $('#yearDropdownMenu').html(yearDropdownHTML);
+
+        // Load current year's chart
+        loadChart(currentYear);
+
+        // Handle year selection
+        $(document).on('click', '.year-option', function () {
+            let selectedYear = $(this).data('year');
+            $('#currentYearBtn').text(selectedYear);
+            loadChart(selectedYear);
+        });
+    });
+
+   
+</script>

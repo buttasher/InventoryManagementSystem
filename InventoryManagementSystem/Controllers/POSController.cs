@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using System.Security.Claims;
 
 namespace InventoryManagementSystem.Controllers
@@ -28,7 +29,7 @@ namespace InventoryManagementSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            
+
             ViewBag.UserId = userId;
             ViewBag.CustomerId = customerId;
             ViewBag.ReturnItemId = returnItemId;
@@ -78,7 +79,7 @@ namespace InventoryManagementSystem.Controllers
        
         [HttpPost]
         [Route("Checkout")]
-        public IActionResult Checkout([FromBody] CheckoutViewModel checkoutData)
+        public  IActionResult Checkout([FromBody] CheckoutViewModel checkoutData)
         {
             try
             {
@@ -94,7 +95,7 @@ namespace InventoryManagementSystem.Controllers
                         UserId = checkoutData.UserId,
                         CustomerId = checkoutData.CustomerId,
                         PaymentMethodId = checkoutData.PaymentMethodId,
-                        TransactionDate = checkoutData.TransactionDate,
+                        TransactionDate = DateTime.Now,
                         Subtotal = checkoutData.Subtotal,
                         Tax = checkoutData.Tax,
                         TotalAmount = checkoutData.TotalAmount
@@ -115,7 +116,22 @@ namespace InventoryManagementSystem.Controllers
                         };
 
                         _context.Transactiondetails.Add(transactionDetail);
+
+                        var productInDb = _context.Products.FirstOrDefault(p => p.ProductId == product.ProductId);
+                        if (productInDb != null)
+                        {
+                            productInDb.Quantity -= product.Quantity;
+
+                            // Ensure quantity doesn't go below zero
+                            if (productInDb.Quantity < 0)
+                            {
+                                productInDb.Quantity = 0;
+                            }
+
+                            _context.Products.Update(productInDb);
+                        }
                     }
+                    
 
                     _context.SaveChanges();
                     transaction.Commit();
@@ -129,10 +145,6 @@ namespace InventoryManagementSystem.Controllers
                 return StatusCode(500, "Error processing transaction: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
             }
         }
-
-
-
-
 
 
     }

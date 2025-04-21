@@ -60,13 +60,14 @@ namespace InventoryManagementSystem.Controllers
 
         public IActionResult Logout()
         {
+            // Clear session
             HttpContext.Session.Clear();
 
-            // Manually delete any cookies that could be related to the authentication session
-            Response.Cookies.Delete("UserRole");
-            Response.Cookies.Delete("UserId");
-            Response.Cookies.Delete(".AspNetCore.Identity.Application"); // If using ASP.NET Identity
-
+            // Clear any authentication cookies if you're using cookies
+            if (Request.Cookies[".AspNetCore.Identity.Application"] != null)
+            {
+                Response.Cookies.Delete(".AspNetCore.Identity.Application");
+            }
 
             return RedirectToAction("Index", "Account");
         }
