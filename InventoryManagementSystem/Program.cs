@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // 🔹 Register database context
 builder.Services.AddDbContext<InventoryManagementSystemContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
-
+// 🔹 Register AIReportingService 🔧 (ADD THIS LINE)
+builder.Services.AddScoped<AiReportingService>();
+// 🔹 Register HttpClient service
+builder.Services.AddHttpClient();
 // 🔹 Add controllers and views
 builder.Services.AddControllersWithViews();
 
