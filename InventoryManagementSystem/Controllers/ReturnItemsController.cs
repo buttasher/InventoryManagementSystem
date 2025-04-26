@@ -7,16 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventoryManagementSystem.Models;
 using Org.BouncyCastle.Ocsp;
+using Microsoft.AspNetCore.SignalR;
+using InventoryManagementSystem.Hubs;
+using InventoryManagementSystem.Services;
 
 namespace InventoryManagementSystem.Controllers
 {
     public class ReturnitemsController : Controller
     {
         private readonly InventoryManagementSystemContext _context;
+        private readonly NotificationService _notificationService;
 
-        public ReturnitemsController(InventoryManagementSystemContext context)
+        public ReturnitemsController(InventoryManagementSystemContext context, NotificationService notificationService)
         {
             _context = context;
+            _notificationService = notificationService;
         }
 
         // GET: Returnitems
@@ -85,15 +90,42 @@ namespace InventoryManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReturnItemsId,TransactionId,ProductId,ReturnQuantity,ReturnReason,ReturnDate")] Returnitem returnitem)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(returnitem);
                 await _context.SaveChangesAsync();
+
+
+                // ✅ Get current login user
+                int? userId = HttpContext.Session.GetInt32("UserId");
+                string role = "Admin"; // Still sending to Admin group
+
+                if (userId.HasValue)
+                {
+                    // ✅ Fetch the current user's full name from Users table
+                    var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId.Value);
+
+                    if (user != null)
+                    {
+                        string fullName = user.FullName; // Get cashier's name dynamically
+                        string message = $"Product {returnitem.ProductId} was added to return list by cashier {fullName}.";
+
+                        await _notificationService.SendNotification(
+                            message,
+                            userId.Value,
+                            role
+                        );
+                    }
+                }
+
+
                 HttpContext.Session.SetInt32("ReturnItemId", returnitem.ReturnItemsId);
                 return RedirectToAction("Index","POS");
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", returnitem.ProductId);
             ViewData["TransactionId"] = new SelectList(_context.Transactions, "TransactionId", "TransactionId", returnitem.TransactionId);
+
             return View(returnitem);
         }
 

@@ -30,7 +30,9 @@ public partial class Product
     public virtual Productcategory? Category { get; set; }
 
     public virtual ICollection<Expireditem> Expireditems { get; set; } = new List<Expireditem>();
+
     public virtual ICollection<Lowstock> Lowstocks { get; set; } = new List<Lowstock>();
+
     public virtual ICollection<Returnitem> Returnitems { get; set; } = new List<Returnitem>();
 
     public virtual ICollection<Transactiondetail> Transactiondetails { get; set; } = new List<Transactiondetail>();

@@ -17,6 +17,10 @@ public partial class Transaction
 
     public int CustomerId { get; set; }
 
+    public decimal? Tax { get; set; }
+
+    public decimal? Subtotal { get; set; }
+
     public virtual Customer Customer { get; set; } = null!;
 
     public virtual Paymentmethod PaymentMethod { get; set; } = null!;
@@ -26,9 +30,4 @@ public partial class Transaction
     public virtual ICollection<Transactiondetail> Transactiondetails { get; set; } = new List<Transactiondetail>();
 
     public virtual User User { get; set; } = null!;
-
-    public decimal Tax { get; set; }
-
-    public decimal Subtotal { get; set; }
 }
-

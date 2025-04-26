@@ -21,6 +21,8 @@ public partial class InventoryManagementSystemContext : DbContext
 
     public virtual DbSet<Lowstock> Lowstocks { get; set; }
 
+    public virtual DbSet<Notification> Notifications { get; set; }
+
     public virtual DbSet<Paymentmethod> Paymentmethods { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
@@ -89,7 +91,8 @@ public partial class InventoryManagementSystemContext : DbContext
 
             entity.ToTable("lowstock", "inventorymanagementsystem");
 
-            entity.HasIndex(e => e.ProductId, "fk_expireditems_products");
+            entity.HasIndex(e => e.ProductId, "fk_lowstock_products_idx");
+
             entity.Property(e => e.Brand)
                 .HasMaxLength(100)
                 .HasDefaultValueSql("(NULL)");
@@ -102,8 +105,22 @@ public partial class InventoryManagementSystemContext : DbContext
             entity.Property(e => e.ItemName).HasMaxLength(255);
 
             entity.HasOne(d => d.Product).WithMany(p => p.Lowstocks)
-              .HasForeignKey(d => d.ProductId)
-              .HasConstraintName("expireditems$fk_expireditems_products");
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("lowstock$fk_lowstock_products");
+        });
+
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__notifica__3214EC071B8C3936");
+
+            entity.ToTable("notifications", "inventorymanagementsystem");
+
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsRead).HasDefaultValue(false);
+            entity.Property(e => e.Role).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Paymentmethod>(entity =>
@@ -133,18 +150,17 @@ public partial class InventoryManagementSystemContext : DbContext
             entity.Property(e => e.CategoryId)
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnName("CategoryID");
+            entity.Property(e => e.CostPrice)
+                .HasMaxLength(100)
+                .HasDefaultValueSql("(NULL)");
             entity.Property(e => e.CreatedAt)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(getdate())");
             entity.Property(e => e.ExpiryDate).HasDefaultValueSql("(NULL)");
             entity.Property(e => e.ItemName).HasMaxLength(150);
             entity.Property(e => e.ManufactureDate).HasDefaultValueSql("(NULL)");
-            entity.Property(e => e.CostPrice)
-                .HasMaxLength(100)
-                .HasDefaultValueSql("(NULL)");
-            entity.Property(e => e.SellingPrice)
-               .HasMaxLength(100);
             entity.Property(e => e.Quantity).HasDefaultValue(0);
+            entity.Property(e => e.SellingPrice).HasMaxLength(100);
             entity.Property(e => e.Unit)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("(NULL)");
@@ -188,7 +204,6 @@ public partial class InventoryManagementSystemContext : DbContext
             entity.Property(e => e.ReturnDate)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(getdate())");
-           
             entity.Property(e => e.TransactionId)
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnName("TransactionID");
@@ -219,16 +234,12 @@ public partial class InventoryManagementSystemContext : DbContext
             entity.Property(e => e.TransactionId).HasColumnName("TransactionID");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodID");
-
-            entity.Property(e => e.Tax)
-                .HasDefaultValueSql("(NULL)")
-                .HasColumnType("decimal(10,2)");
-
             entity.Property(e => e.Subtotal)
                 .HasDefaultValueSql("(NULL)")
-                .HasColumnType("decimal(10,2)");
-
-
+                .HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Tax)
+                .HasDefaultValueSql("(NULL)")
+                .HasColumnType("decimal(18, 2)");
             entity.Property(e => e.TotalAmount)
                 .HasDefaultValueSql("(NULL)")
                 .HasColumnType("decimal(10, 0)");

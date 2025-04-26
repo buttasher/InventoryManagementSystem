@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace InventoryManagementSystem.Controllers
 {
 
-   
+
     public class AccountController : Controller
     {
         private readonly InventoryManagementSystemContext _context;
@@ -38,7 +38,7 @@ namespace InventoryManagementSystem.Controllers
                 HttpContext.Session.SetInt32("UserId", user.UserId);
                 HttpContext.Session.SetString("UserRole", user.Role);
                 HttpContext.Session.SetString("FullName", user.FullName);
-               
+
 
                 if (user.Role == "Admin")
                 {

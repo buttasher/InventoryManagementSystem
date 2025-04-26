@@ -1341,6 +1341,9 @@ div#global-loader,
     color: #fff
 }
 
+
+
+
 @media(max-width:991px) {
     .btn-cancel {
         min-width: auto;

@@ -1,12 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using InventoryManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Data.SqlClient;
-using System.Configuration;
-using MySqlX.XDevAPI.Common;
+using Microsoft.Data.SqlClient;
+using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Services;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -14,74 +15,84 @@ namespace InventoryManagementSystem.Controllers
     {
         private readonly InventoryManagementSystemContext _context;
         private readonly IConfiguration _configuration;
+        private readonly NotificationService _notificationService;
 
-        public AdminController(InventoryManagementSystemContext context, IConfiguration configuration)
+        public AdminController(InventoryManagementSystemContext context, IConfiguration configuration, NotificationService notificationService)
         {
             _context = context;
             _configuration = configuration;
+            _notificationService = notificationService;
         }
 
-        // Step 1: Admin Dashboard
         public async Task<IActionResult> Index()
-
         {
+            if (HttpContext.Session.GetString("UserRole") != "Admin")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             decimal totalSalesToday = 0;
             int totalItemSold = 0;
             int expiredItems = 0;
             int lowStockItems = 0;
 
-            // Retrieve the connection string from appsettings.json
             string connectionString = _configuration.GetConnectionString("dbconn");
 
+            // Retrieve session values
+            var userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var userRole = HttpContext.Session.GetString("UserRole");
 
+            // Fetch latest notifications for the user
+            var notifications = _context.Notifications
+                .Where(n => n.UserId == userId && n.Role == userRole)
+                .OrderByDescending(n => n.CreatedAt)
+                .Take(5)
+                .ToList();
 
+            ViewBag.Notifications = notifications;
+            ViewBag.NotificationCount = notifications.Count(n => !(bool)n.IsRead);
+
+            // Total Sales Today
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT SUM(TotalAmount) FROM inventorymanagementsystem.transactions WHERE CAST(TransactionDate AS DATE) = CAST(GETDATE() AS DATE);";
+                string query = @"SELECT SUM(TotalAmount) FROM inventorymanagementsystem.transactions 
+                                 WHERE CAST(TransactionDate AS DATE) = CAST(GETDATE() AS DATE);";
                 SqlCommand cmd = new SqlCommand(query, conn);
-
                 conn.Open();
-
                 var result = cmd.ExecuteScalar();
-                // Check if the result is DBNull, and if so, set the total sales to 0.
                 totalSalesToday = result != DBNull.Value ? Convert.ToDecimal(result) : 0;
             }
 
-
+            // Total Items Sold Today
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT SUM(ProductID) FROM inventorymanagementsystem.transactiondetails JOIN inventorymanagementsystem.transactions ON transactions.TransactionID = transactiondetails.TransactionID WHERE CAST(transactionDate AS DATE) = CAST(GETDATE() AS DATE); ";
+                string query = @"SELECT SUM(ProductID) FROM inventorymanagementsystem.transactiondetails 
+                                 JOIN inventorymanagementsystem.transactions 
+                                 ON transactions.TransactionID = transactiondetails.TransactionID 
+                                 WHERE CAST(TransactionDate AS DATE) = CAST(GETDATE() AS DATE);";
                 SqlCommand cmd = new SqlCommand(query, conn);
-
                 conn.Open();
-
                 var result = cmd.ExecuteScalar();
-                // Check if the result is DBNull, and if so, set the total sales to 0.
-                totalItemSold = (result != DBNull.Value) ? Convert.ToInt32(result) : 0;
-
+                totalItemSold = result != DBNull.Value ? Convert.ToInt32(result) : 0;
             }
 
+            // Expired Items Count
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT COUNT(*) FROM inventorymanagementsystem.expireditems";
                 SqlCommand cmd = new SqlCommand(query, conn);
-
                 conn.Open();
-
                 var result = cmd.ExecuteScalar();
-                // Check if the result is DBNull, and if so, set the total sales to 0.
-                expiredItems = result != DBNull.Value ? Convert.ToInt32(result): 0;
+                expiredItems = result != DBNull.Value ? Convert.ToInt32(result) : 0;
             }
 
+            // Low Stock Items Count
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT COUNT(*) FROM inventorymanagementsystem.lowstock";
                 SqlCommand cmd = new SqlCommand(query, conn);
-
                 conn.Open();
-
                 var result = cmd.ExecuteScalar();
-                // Check if the result is DBNull, and if so, set the total sales to 0.
                 lowStockItems = result != DBNull.Value ? Convert.ToInt32(result) : 0;
             }
 
@@ -90,23 +101,28 @@ namespace InventoryManagementSystem.Controllers
             ViewBag.ExpiredItems = expiredItems;
             ViewBag.LowStockItems = lowStockItems;
 
+            // Top 5 Expired Items
             var expiredItemList = await _context.Expireditems
-            .Where(e => e.ExpireDate < DateOnly.FromDateTime(DateTime.Now))
-            .OrderByDescending(e => e.ExpireDate)
-            .Take(5) // Just top 5, or remove Take() to show all
-            .ToListAsync();
+                .Where(e => e.ExpireDate < DateOnly.FromDateTime(DateTime.Now))
+                .OrderByDescending(e => e.ExpireDate)
+                .Take(5)
+                .ToListAsync();
 
             ViewBag.ExpiredItemList = expiredItemList;
-
-
-            if (HttpContext.Session.GetString("UserRole") != "Admin")
-            {
-                return RedirectToAction("Login", "Account");
-            }
 
             return View();
         }
 
+        public IActionResult MarkNotificationAsRead(int notificationId)
+        {
+            var notification = _context.Notifications.FirstOrDefault(n => n.Id == notificationId);
+            if (notification != null)
+            {
+                notification.IsRead = true;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
 
         [HttpGet]
         public JsonResult GetMonthlySales(int year = 0)
@@ -126,13 +142,14 @@ namespace InventoryManagementSystem.Controllers
                 for (int month = 1; month <= 12; month++)
                 {
                     string query = @"
-                SELECT ISNULL(SUM(TotalAmount), 0) 
-                FROM inventorymanagementsystem.transactions 
-                WHERE MONTH(TransactionDate) = @Month AND YEAR(TransactionDate) = @Year";
+                        SELECT ISNULL(SUM(TotalAmount), 0) 
+                        FROM inventorymanagementsystem.transactions 
+                        WHERE MONTH(TransactionDate) = @Month AND YEAR(TransactionDate) = @Year";
 
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@Month", month);
                     cmd.Parameters.AddWithValue("@Year", year);
+
                     var result = cmd.ExecuteScalar();
                     decimal monthTotal = result != DBNull.Value ? Convert.ToDecimal(result) : 0;
 
@@ -151,7 +168,6 @@ namespace InventoryManagementSystem.Controllers
             });
         }
 
-        // Step 2: Show All Staff
         public async Task<IActionResult> ManageUsers()
         {
             if (HttpContext.Session.GetString("UserRole") != "Admin")
@@ -163,7 +179,6 @@ namespace InventoryManagementSystem.Controllers
             return View(staff);
         }
 
-        // Step 3: Create Staff Account Form
         public IActionResult CreateStaff()
         {
             if (HttpContext.Session.GetString("UserRole") != "Admin")
@@ -174,7 +189,6 @@ namespace InventoryManagementSystem.Controllers
             return View();
         }
 
-        // Step 4: Save Staff to Database
         [HttpPost]
         public async Task<IActionResult> CreateStaff(string email, string fullName, string password, int phoneNumber)
         {
@@ -187,7 +201,7 @@ namespace InventoryManagementSystem.Controllers
             {
                 Email = email,
                 FullName = fullName,
-                Password = password, // Encrypt this in the future
+                Password = password,
                 PhoneNumber = phoneNumber,
                 Role = "Staff",
                 CreatedAt = DateTime.Now
@@ -198,33 +212,25 @@ namespace InventoryManagementSystem.Controllers
 
             return RedirectToAction("ManageUsers");
         }
-        // GET: Users/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var user = await _context.Users.FindAsync(id);
             if (user == null)
-            {
                 return NotFound();
-            }
+
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,Email,FullName,Password,PhoneNumber,CreateAt")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,Email,FullName,Password,PhoneNumber,CreatedAt")] User user)
         {
             if (id != user.UserId)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -235,44 +241,30 @@ namespace InventoryManagementSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExistes(user.UserId))
-                    {
+                    if (!_context.Users.Any(e => e.UserId == user.UserId))
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(user);
         }
-        private bool UserExistes(int id)
-        {
-            return _context.Users.Any(e => e.UserId == id);
-        }
 
-
-        // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
-            {
                 return NotFound();
-            }
 
             return View(user);
         }
 
-        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -281,31 +273,22 @@ namespace InventoryManagementSystem.Controllers
             if (user != null)
             {
                 _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
-            {
                 return NotFound();
-            }
 
             return View(user);
         }
-
-        
-
     }
 }
