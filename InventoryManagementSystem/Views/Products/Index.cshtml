@@ -31,22 +31,30 @@
             <div class="wordset">
                 <ul>
                     <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
+                        <form id="uploadForm" enctype="multipart/form-data" asp-controller="Products" asp-action="UploadProducts" method="post">
+                            <label for="fileInput" style="cursor:pointer;">
+                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="Upload CSV/Excel">
+                                    <img src="~/img/icons/excel.svg" alt="Upload">
+                                </a>
+                            </label>
+                            <input type="file" id="fileInput" name="file" accept=".csv" style="display:none;" onchange="document.getElementById('uploadForm').submit();" />
+                        </form>
+                    </li>
+
+                    <!-- Other buttons -->
+                    <li>
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="PDF">
                             <img src="~/img/icons/pdf.svg" alt="img">
                         </a>
                     </li>
                     <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
-                            <img src="~/img/icons/excel.svg" alt="img">
-                        </a>
-                    </li>
-                    <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="print">
+                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="Print">
                             <img src="~/img/icons/printer.svg" alt="img">
                         </a>
                     </li>
                 </ul>
             </div>
+
         </div>
 
 

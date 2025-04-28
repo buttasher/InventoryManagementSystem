@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,10 +12,11 @@ namespace InventoryManagementSystem.Controllers
     public class POSController : Controller
     {
         private readonly InventoryManagementSystemContext _context;
-
-        public POSController(InventoryManagementSystemContext context)
+        private readonly NotificationService _notificationService;
+        public POSController(InventoryManagementSystemContext context , NotificationService notificationService)
         {
             _context = context;
+            _notificationService = notificationService;
         }
 
         public IActionResult Index()
@@ -79,7 +81,7 @@ namespace InventoryManagementSystem.Controllers
        
         [HttpPost]
         [Route("Checkout")]
-        public  IActionResult Checkout([FromBody] CheckoutViewModel checkoutData)
+        public IActionResult Checkout([FromBody] CheckoutViewModel checkoutData)
         {
             try
             {
@@ -103,6 +105,9 @@ namespace InventoryManagementSystem.Controllers
 
                     _context.Transactions.Add(newTransaction);
                     _context.SaveChanges();
+
+                   
+
 
                     foreach (var product in checkoutData.Products)
                     {
@@ -131,10 +136,19 @@ namespace InventoryManagementSystem.Controllers
                             _context.Products.Update(productInDb);
                         }
                     }
-                    
-
+            
                     _context.SaveChanges();
                     transaction.Commit();
+
+                    // ✅ ADD YOUR NOTIFICATION HERE
+                    string userRole = HttpContext.Session.GetString("UserRole");
+                    int? userId = HttpContext.Session.GetInt32("UserId");
+
+                    string Message = "Transaction #" + newTransaction.TransactionId + " completed successfully.";
+                    string Role = userRole ?? "Unknown"; // Optional: Staff or Admin
+                    int UserId = userId ?? 0;         // Optional: current logged in user
+
+                    _ = _notificationService.SendNotification(Message, UserId, Role);
 
                     return Ok(new { message = "Transaction successful", transactionId = newTransaction.TransactionId });
                 }

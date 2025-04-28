@@ -6,16 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Services;
 
 namespace InventoryManagementSystem.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly InventoryManagementSystemContext _context;
+        private readonly NotificationService _notificationService;
 
-        public ProductsController(InventoryManagementSystemContext context)
+
+        public ProductsController(InventoryManagementSystemContext context, NotificationService notificationService)
         {
             _context = context;
+            _notificationService = notificationService;
         }
 
         // GET: Products
@@ -250,6 +254,60 @@ namespace InventoryManagementSystem.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadProducts(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                TempData["Error"] = "Please select a valid CSV file.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            using (var stream = new StreamReader(file.OpenReadStream()))
+            {
+                while (!stream.EndOfStream)
+                {
+                    var line = await stream.ReadLineAsync();
+                    var values = line.Split(',');
+
+                    if (values.Length >= 10) // Ensure enough columns
+                    {
+                        var product = new Product
+                        {
+                            ItemName = values[0],
+                            ProductId = int.Parse(values[1]),
+                            CategoryId = int.Parse(values[2]),
+                            Brand = values[3],
+                            CostPrice = (values[4]),
+                            SellingPrice = (values[5]),
+                            Unit = values[6],
+                            Quantity = int.Parse(values[7]),
+                            ManufactureDate = DateOnly.Parse(values[8]),
+                            ExpiryDate = DateOnly.Parse(values[9]),
+                            CreatedAt = DateTime.Now
+                        };
+
+                        _context.Products.Add(product);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                int? userId = HttpContext.Session.GetInt32("UserId");
+                string userRole = HttpContext.Session.GetString("UserRole");
+                string message = "Excel File Successfully Uploaded";
+
+
+                // ✅ Push Notification to Admin
+                await _notificationService.SendNotification(message, userId.Value, userRole);
+            }
+
+            TempData["Success"] = "Products uploaded successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
 
     }
 }

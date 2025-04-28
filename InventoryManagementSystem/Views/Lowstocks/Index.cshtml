@@ -9,7 +9,6 @@
         <h4>Low Stock Items</h4>
         <h6>Manage your low stock items</h6>
     </div>
-
 </div>
 
 <div class="card">
@@ -56,7 +55,7 @@
                         <th>Quantity</th>
                         <th>Alert</th>
 
-                     
+
                     </tr>
                 </thead>
                 <tbody>
@@ -76,7 +75,7 @@
                                 @Html.DisplayFor(modelItem => item.Quantity)
                             </td>
                             <td>
-                               @if(item.Alert == 1)
+                                @if (item.Alert == 1)
                                 {
                                     <span class="badge bg-danger">Low Stock</span>
                                 }
@@ -85,7 +84,7 @@
                                     <span class="badge bg-success">Sufficient</span>
                                 }
                             </td>
-                            
+
                         </tr>
                     }
                 </tbody>
@@ -93,3 +92,6 @@
         </div>
     </div>
 </div>
+
+
+

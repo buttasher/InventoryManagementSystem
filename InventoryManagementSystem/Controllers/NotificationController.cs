@@ -21,15 +21,36 @@ namespace InventoryManagementSystem.Controllers
         [HttpGet]
         public IActionResult GetNotifications()
         {
-            var notifications = _context.Notifications
+
+            var userRole = HttpContext.Session.GetString("UserRole");
+
+            var notificationsQuery = _context.Notifications
                 .OrderByDescending(n => n.CreatedAt)
-                .Select(n => new
-                {
-                    n.Id,
-                    n.Message,
-                    n.CreatedAt
-                })
-                .ToList();
+                .AsQueryable();
+
+
+            if (userRole == "Staff")
+            {
+                notificationsQuery = notificationsQuery.Where(n => n.Role == "Staff");
+            }
+            else if (userRole == "Admin")
+            {
+                notificationsQuery = notificationsQuery.Where(n => n.Role == "Admin");
+            }
+            else if (userRole == "All")
+            {
+                notificationsQuery = notificationsQuery.Where(n => n.Role == "All");
+            }
+
+            var notifications = notificationsQuery
+            .Select(n => new
+             {
+                 n.Id,
+                 n.Message,
+                 n.CreatedAt
+              })
+              .ToList();
+
 
             return Json(notifications);
         }

@@ -14,53 +14,23 @@ namespace InventoryManagementSystem.Controllers
         private readonly AiReportingService _aiReportingService;
         private readonly HttpClient _httpClient;
         private readonly InventoryManagementSystemContext _context;
-      
+        private readonly NotificationService _notificationService;
+
         // Constructor to inject the dependencies
-        public AiReportingController(AiReportingService aiReportingService, HttpClient httpClient, InventoryManagementSystemContext context)
+        public AiReportingController(AiReportingService aiReportingService, HttpClient httpClient, InventoryManagementSystemContext context, NotificationService notificationService)
         {
             _aiReportingService = aiReportingService;
             _httpClient = httpClient;
             _context = context;
-            
+            _notificationService = notificationService;
         }
 
         // Action to handle report download
         public async Task<IActionResult> DownloadReport()
         {
-            // Save the notification first
-            var adminId = 1; // Replace with the actual admin userId or fetch from context
-            var notification = new Notification
-            {
-                Message = "The report has been downloaded successfully.",
-                Role = "admin",  // Admin role
-                IsRead = false,  // Notification is unread initially
-                CreatedAt = DateTime.Now,
-                UserId = adminId
-            };
-
-            try
-            {
-                _context.Notifications.Add(notification); // Add to the Notifications table
-                await _context.SaveChangesAsync(); // Save to the database
-
-                // Check if the notification is saved correctly
-                var savedNotification = await _context.Notifications.OrderByDescending(n => n.CreatedAt).FirstOrDefaultAsync();
-                if (savedNotification != null)
-                {
-                    Console.WriteLine("Notification saved with ID: " + savedNotification.Id);
-                }
-                else
-                {
-                    Console.WriteLine("Failed to save notification.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error saving notification: " + ex.Message);
-            }
 
           
-
+          
             // Proceed with the download logic (or any additional logic before download)
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "pdfs", "report.pdf");
 
@@ -68,11 +38,15 @@ namespace InventoryManagementSystem.Controllers
             {
                 var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
                 return File(fileBytes, "application/pdf", "report.pdf");
+
+
             }
             else
             {
                 return NotFound("Report file not found.");
             }
+
+
         }
 
       
@@ -110,10 +84,13 @@ namespace InventoryManagementSystem.Controllers
                 var filePath = Path.Combine(folderPath, "report.pdf");
                 await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
 
-                
 
-           
+                int? userId = HttpContext.Session.GetInt32("UserId");
+                string userRole = HttpContext.Session.GetString("UserRole");
+                string message = "Sales Trend Report has been generated and downloaded";
 
+                // ✅ Push Notification to Admin
+                await _notificationService.SendNotification(message, userId.Value, userRole);
 
                 ViewData["ReportGenerated"] = true;
                 ViewData["ReportDownloadUrl"] = "/pdfs/report.pdf";
@@ -161,7 +138,13 @@ namespace InventoryManagementSystem.Controllers
                 var filePath = Path.Combine(folderPath, "customer_segmentation_report.pdf");
                 await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
 
-             
+                int? userId = HttpContext.Session.GetInt32("UserId");
+                string userRole = HttpContext.Session.GetString("UserRole");
+                string message = "Customer Segmentation Report has been generated and downloaded";
+
+                // ✅ Push Notification to Admin
+                await _notificationService.SendNotification(message, userId.Value, userRole);
+
                 ViewData["CustomerSegmentationReportGenerated"] = true;
                 ViewData["CustomerSegmentationReportDownloadUrl"] = "/pdfs/customer_segmentation_report.pdf";
 
@@ -200,6 +183,13 @@ namespace InventoryManagementSystem.Controllers
                 var filePath = Path.Combine(folderPath, "profit_loss_report.pdf");
                 await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
 
+
+                int? userId = HttpContext.Session.GetInt32("UserId");
+                string userRole = HttpContext.Session.GetString("UserRole");
+                string message = "Product Insights Report has been generated and downloaded";
+
+                // ✅ Push Notification to Admin
+                await _notificationService.SendNotification(message, userId.Value, userRole);
 
                 // ✅ Optional: TempData for success message
                 TempData["ProfitLossReportGenerated"] = true;

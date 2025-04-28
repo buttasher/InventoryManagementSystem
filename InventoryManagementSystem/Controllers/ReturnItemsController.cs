@@ -10,6 +10,7 @@ using Org.BouncyCastle.Ocsp;
 using Microsoft.AspNetCore.SignalR;
 using InventoryManagementSystem.Hubs;
 using InventoryManagementSystem.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -96,15 +97,23 @@ namespace InventoryManagementSystem.Controllers
                 _context.Add(returnitem);
                 await _context.SaveChangesAsync();
 
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == returnitem.ProductId);
+                if (product != null)
+                {
+                    product.Quantity += returnitem.ReturnQuantity;  // increase stock
+                    _context.Products.Update(product);
+                    await _context.SaveChangesAsync();
+                }
 
                 // ✅ Get current login user
                 int? userId = HttpContext.Session.GetInt32("UserId");
-                string role = "Admin"; // Still sending to Admin group
+                string userRole = HttpContext.Session.GetString("UserRole");
 
                 if (userId.HasValue)
                 {
                     // ✅ Fetch the current user's full name from Users table
                     var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId.Value);
+                    string role = userRole ?? "Unknown";
 
                     if (user != null)
                     {

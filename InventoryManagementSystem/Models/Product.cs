@@ -36,4 +36,6 @@ public partial class Product
     public virtual ICollection<Returnitem> Returnitems { get; set; } = new List<Returnitem>();
 
     public virtual ICollection<Transactiondetail> Transactiondetails { get; set; } = new List<Transactiondetail>();
+
+   
 }
